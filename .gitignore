@@ -26,6 +26,17 @@ share/python-wheels/
 *.egg
 MANIFEST
 
+# Anaconda environment
+env/
+venv/
+conda-env/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# VSCode
+.vscode/
+
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
