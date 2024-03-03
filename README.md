@@ -12,3 +12,16 @@ This project aims to develop a lexical analyzer (scanner) for the Decaf 19 progr
 ### Setting Up the Environment
 1. Clone this repository.
 2. Create a new Conda environment:
+
+Replace `[source_code_file]` with the path to a Decaf 19 source file.
+
+### Development
+
+### Tools and Technologies
+- Language: Python
+- Environment Management: Anaconda
+- IDE: Visual Studio Code
+
+### Structure
+- `scanner.py`: Main script for the lexical analyzer.
+- `/tests`: Directory containing test scripts and example Decaf 19 programs.
