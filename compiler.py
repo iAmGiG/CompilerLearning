@@ -36,40 +36,40 @@ t_COMMA = r','
 # A string containing ignored characters (spaces and tabs)
 t_ignore = ' \t'
 
-# A rule for identifiers (example)
 
 
 def t_IDENTIFIER(t):
+    # A rule for identifiers (example)
     r'[a-zA-Z_][a-zA-Z_0-9]*'
     t.type = reserved.get(t.value, 'IDENTIFIER')    # Check for reserved words
     return t
 
-# A rule for integer literals (example)
 
 
 def t_INTEGER(t):
+    # A rule for integer literals (example)
     r'\d+'
     t.value = int(t.value)    # Convert string to integer
     return t
 
-# Define a rule so we can track line numbers
 
 
 def t_newline(t):
+    # Define a rule so we can track line numbers
     r'\n+'
     t.lexer.lineno += len(t.value)
 
-# Error handling rule
 
 
 def t_error(t):
+    # Error handling rule
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
 
-# Rule for string literals
 
 
 def t_STRINGCONSTANT(t):
+    # Rule for string literals
     r'"([^"\n]|(\\"))*"'
     t.value = t.value[1:-1]  # remove the double quotes
     return t
