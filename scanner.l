@@ -1,34 +1,48 @@
 %{
 #include <stdio.h>
-#define IDENTIFIER 1
-#define INTEGER_LITERAL 2
-#define DOUBLE_LITERAL 3
-#define STRING_LITERAL 4
-#define BOOLEAN_LITERAL 5
-// Add definitions for other tokens
+int line_num = 1;
+int column_num = 1;
 %}
+
+%option noyywrap
 
 %%
 
-"void"|"int"|"double"|"bool"|"string"|"null"|"for"|"while"|"if"|"else"|"return"|"break"|"Print"|"ReadInteger"|"ReadLine" { printf("KEYWORD: %s\n", yytext); }
-[truefalse]+                                                                         { printf("BOOLEAN: %s\n", yytext); return BOOLEAN_LITERAL; }
-0x[0-9a-fA-F]+                                                                       { printf("HEX_INTEGER: %s\n", yytext); return INTEGER_LITERAL; }
-[0-9]+                                                                               { printf("INTEGER: %s\n", yytext); return INTEGER_LITERAL; }
-[0-9]+\.[0-9]*([eE][-+]?[0-9]+)?                                                     { printf("DOUBLE: %s\n", yytext); return DOUBLE_LITERAL; }
-\"[^"\n]*\"                                                                          { printf("STRING: %s\n", yytext); return STRING_LITERAL; }
-[a-zA-Z][a-zA-Z0-9_]*                                                                { printf("IDENTIFIER: %s\n", yytext); return IDENTIFIER; }
-[ \t\n]+                                                                             { /* Ignore whitespace */ }
-.                                                                                    { printf("UNKNOWN: %s\n", yytext); }
+\n                  { ++line_num; column_num = 1; }
+[ \t]+              { column_num += yyleng; } /* Handle tabs and spaces for accurate column counting */
+
+"true"|"false"      { printf("%s\t\t line %d cols %d-%d is T_Boolean\n", yytext, line_num, column_num, column_num + (int)yyleng - 1); column_num += yyleng; }
+"TRUE"|"FALSE"|"True"|"False"      { printf("%s\t\t line %d cols %d-%d is T_Identifier\n", yytext, line_num, column_num, column_num + (int)yyleng - 1); column_num += yyleng; }
+[a-zA-Z_][a-zA-Z0-9_]* { printf("IDENTIFIER: %s\t line %d cols %d-%d\n", yytext, line_num, column_num, column_num + (int)yyleng - 1); column_num += yyleng; } /* Valid identifier */
+
+[0-9]+(\.[0-9]*)?([Ee][+-]?[0-9]+)? {
+    printf("%s\t\t line %d cols %d-%d is T_Double\n", yytext, line_num, column_num, column_num + (int)yyleng - 1);
+    column_num += yyleng;
+}
+
+.|\n               { printf("UNKNOWN: %s\t line %d cols %d-%d\n", yytext, line_num, column_num, column_num + (int)yyleng - 1); column_num += yyleng; } /* Catch-all for characters not matched by other rules */
 
 %%
 
 int main(int argc, char **argv) {
-    yyin = fopen(argv[1], "r");
+    if (argc > 1) {
+        FILE *file;
+        file = fopen(argv[1], "r");
+        if (!file) {
+            perror(argv[1]);
+            return 1;
+        }
+        yyin = file;
+    }
     yylex();
-    fclose(yyin);
+    if (argc > 1) {
+        fclose(yyin);
+    }
     return 0;
 }
 
+/*
 int yywrap() {
     return 1;
 }
+*/
