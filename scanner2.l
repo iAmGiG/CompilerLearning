@@ -3,7 +3,7 @@
 #include <string.h>
 
 #define MAX_IDENTIFIER_LENGTH 31
-#define MAX_INT_CONSTANT_VALUE 2147483647  /* 2^31 - 1 */
+#define MAX_INT_CONSTANT_VALUE 2147483647 /* 2^31 - 1 */
 
 int line_num = 1;
 int column_num = 1;
@@ -13,9 +13,25 @@ int column_num = 1;
 
 DIGIT    [0-9]
 LETTER   [a-zA-Z]
-IDENTIFIER  ({LETTER}|_)({LETTER}|{DIGIT}|_){0,30}
+IDENTIFIER ({LETTER}|_)({LETTER}|{DIGIT}|_){0,30}
 
 %%
+
+"void"      { return T_VOID; }
+"int"       { return T_INT; }
+"double"    { return T_DOUBLE; }
+"string"    { return T_STRING; }
+"while"     { return T_WHILE; }
+"if"        { return T_IF; }
+"else"      { return T_ELSE; }
+"return"    { return T_RETURN; }
+"break"     { return T_BREAK; }
+"true"      { printf("%s\t\t line %d cols %d-%d is T_BoolConstant (value = true)\n", yytext, line_num, column_num, column_num + (int)yyleng - 1); column_num += yyleng; return T_BOOL_CONSTANT; }
+"false"     { printf("%s\t\t line %d cols %d-%d is T_BoolConstant (value = false)\n", yytext, line_num, column_num, column_num + (int)yyleng - 1); column_num += yyleng; return T_BOOL_CONSTANT; }
+"||"        { return T_OR; }
+"<="        { return T_LESS_EQUAL; }
+">="        { return T_GREATER_EQUAL; }
+"=="        { return T_EQUAL; }
 
 {IDENTIFIER} {
     if (yyleng > MAX_IDENTIFIER_LENGTH) {
@@ -25,6 +41,7 @@ IDENTIFIER  ({LETTER}|_)({LETTER}|{DIGIT}|_){0,30}
         printf("%s line %d cols %d-%d is T_Identifier\n", yytext, line_num, column_num, column_num + (int)yyleng - 1);
     }
     column_num += yyleng;
+    return T_IDENTIFIER;
 }
 
 {DIGIT}+ {
@@ -34,6 +51,7 @@ IDENTIFIER  ({LETTER}|_)({LETTER}|{DIGIT}|_){0,30}
     }
     printf("%s line %d cols %d-%d is T_IntConstant (value = %d)\n", yytext, line_num, column_num, column_num + (int)yyleng - 1, value);
     column_num += yyleng;
+    return T_INT_CONSTANT;
 }
 
 \n {
@@ -43,11 +61,12 @@ IDENTIFIER  ({LETTER}|_)({LETTER}|{DIGIT}|_){0,30}
 
 [ \t]+ {
     column_num += yyleng;
-}
+} /* Handle tabs and spaces for accurate column counting */
 
 . {
     printf("%s line %d cols %d-%d is '%s'\n", yytext, line_num, column_num, column_num, yytext);
     column_num += yyleng;
+    return T_UNKNOWN;
 }
 
 %%
