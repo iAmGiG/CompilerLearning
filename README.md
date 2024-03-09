@@ -1,36 +1,86 @@
-# Compiler Project
+# Compiler Project for Decaf 19
 
-```bash
-update readme.md to use flex details.
-```
+## Lexical Analyzer for DeCaf 19 Fragments (.frag)
 
-## Overview
+This project implements a lexical analyzer for DeCaf 19 fragments using the Flex tool in Ubuntu. The tool reads a .frag file as input and generates a list of tokens as output. The correctness of the generated tokens can be verified by comparing them with an equivalent .out file located in the same directory.
 
-This project aims to develop a lexical analyzer (scanner) for the Decaf 19 programming language as part of a compiler construction course. The lexical analyzer will read Decaf 19 source code, identify tokens, and categorize them according to the language's specifications.
+## Features
+
+- **Lexical Analysis:** Identifies and classifies tokens in a DeCaf 19 fragment file.
+- **Tokenization:** Breaks down the source code into meaningful units (tokens) like keywords, identifiers, operators, and literals.
+- **Output Generation:** Creates a list of tokens based on the lexical analysis.
+- **Verification with Equivalents:** Allows comparison of the generated tokens with a pre-defined expected output file (.out).
+
+## Phases
+
+### Phase 1: Lexical Analysis
+
+- **Objective**: Develop a scanner with Flex.
+- **Result**: List of tokens.
+- **How to Run**:
+  - Manually: `flex scanner.l; gcc lex.yy.c -lfl -o scanner; ./scanner <input_file>`
+  - Python script: `python run_scanner.py <input_file>`
+
+### How it Works
+
+1. **Source Code Input:** The tool takes a .frag file containing a DeCaf 19 fragment as input.
+2. **Lexical Analysis:** Flex processes the input file and identifies meaningful units (tokens) based on predefined patterns and rules.
+3. **Token Generation:** The identified tokens are then compiled into a list.
+4. **Output:** The list of tokens is generated as the output.
+5. **Verification (Optional):** The output can be compared with a corresponding .out file in the samples/ folder to verify the correctness of tokenization.
 
 ## Getting Started
 
 ### Prerequisites
 
-- Python 3.9+
-- Anaconda
+- Python 3.9+, Flex, GCC
 
-### Setting Up the Environment
+### Usage
 
-1. Clone this repository.
-2. Create a new Conda environment:
+Running the Lexical Analyzer
 
-Replace `[source_code_file]` with the path to a Decaf 19 source file.
+### Option 1: Manual Compilation and Execution
 
-### Development
+1. **Compile Flex Scanner:** Compile the Flex scanner definition file (scanner.l) using the command:
 
-### Tools and Technologies
+```bash
+flex scanner.l
+```
 
-- Language: Python
-- Environment Management: Anaconda
-- IDE: Visual Studio Code
+This generates the C code (lex.yy.c) for the scanner.
 
-### Structure
+2. **Compile Scanner Code:** Compile the generated C code (lex.yy.c) with GCC and the Flex library (-lfl) to create the executable (scanner):
 
-- `scanner.py`: Main script for the lexical analyzer.
-- `/tests`: Directory containing test scripts and example Decaf 19 programs.
+```bash
+gcc lex.yy.c -lfl -o scanner
+```
+
+3. **Run the Scanner:** Execute the scanner with your .frag file as input:
+
+```bash
+./scanner <your_fragment_file.frag>
+```
+
+## Option 2: Using Python Script (run_scanner.py)
+
+- 1. Ensure Python 3.9+ is installed.
+- 2. **Run the Scanner with Python Script:** Execute the Python script (run_scanner.py) with your .frag file as input:
+
+```bash
+python run_scanner.py <your_fragment_file.frag>
+```
+
+**Note:** Both methods achieve the same outcome: generating a list of tokens from the .frag file.
+
+## Testing
+
+The `/tests` directory contains sample `.frag` files and their corresponding expected output files `(.out)` for testing the scanner's functionality. You can use these samples to verify if the tool is correctly tokenizing DeCaf 19 fragments.
+
+- Python 3.9+ (if using the Python script)
+- Flex
+- GCC
+
+### Setup
+
+- Clone the repository using Git.
+- Install the required tools (Flex and GCC) using your Ubuntu package manager.
