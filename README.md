@@ -10,6 +10,9 @@ This project implements a lexical analyzer for DeCaf 19 fragments using the Flex
 - **Tokenization:** Breaks down the source code into meaningful units (tokens) like keywords, identifiers, operators, and literals.
 - **Output Generation:** Creates a list of tokens based on the lexical analysis.
 - **Verification with Equivalents:** Allows comparison of the generated tokens with a pre-defined expected output file (.out).
+- **Parallel Testing:** Runs tests in parallel for faster execution.
+- **Selective Scanner Testing:** Allows testing different scanner files.
+- **Timestamped Logs:** Generates timestamped log files for each test run.
 
 ## Phases
 
@@ -19,14 +22,14 @@ This project implements a lexical analyzer for DeCaf 19 fragments using the Flex
 - **Result**: List of tokens.
 - **How to Run**:
   - Manually: `flex scanner.l; gcc lex.yy.c -lfl -o scanner; ./scanner <input_file>`
-  - Python script: `python run_scanner.py <input_file>`
+  - Python script: `python run_scanner.py`
 
 ### How it Works
 
 1. **Source Code Input:** The tool takes a .frag file containing a DeCaf 19 fragment as input.
 2. **Lexical Analysis:** Flex processes the input file and identifies meaningful units (tokens) based on predefined patterns and rules.
 3. **Token Generation:** The identified tokens are then compiled into a list.
-4. **Output:** The list of tokens is generated as the output.
+4. **Output:** The list of tokens is generated as output.
 5. **Verification (Optional):** The output can be compared with a corresponding .out file in the samples/ folder to verify the correctness of tokenization.
 
 ## Getting Started
@@ -67,10 +70,16 @@ gcc lex.yy.c -lfl -o scanner
 - 2. **Run the Scanner with Python Script:** Execute the Python script (run_scanner.py) with your .frag file as input:
 
 ```bash
-python run_scanner.py <your_fragment_file.frag>
+python run_scanner.py
 ```
 
-**Note:** Both methods achieve the same outcome: generating a list of tokens from the .frag file.
+The script will prompt you for the following inputs:
+
+- Scanner file name (default: scanner.l)
+- Whether to run tests in parallel (y/n)
+- Number of parallel processes to use (if parallel testing is chosen, default: 4)
+- Test directory (default: samples)
+- Note: Both methods achieve the same outcome: generating a list of tokens from the .frag file.
 
 ## Testing
 

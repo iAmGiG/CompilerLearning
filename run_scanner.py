@@ -67,6 +67,7 @@ def test_scanner(test_dir='samples', log_file='scanner_test_log.txt'):
 
         frag_files = glob.glob(f"{test_dir}/*.frag")
         for frag_file in frag_files:
+            print(f"Processing test case: {frag_file}...")
             expected_output_file = frag_file.replace('.frag', '.out')
 
             if not os.path.exists(expected_output_file):
@@ -81,16 +82,21 @@ def test_scanner(test_dir='samples', log_file='scanner_test_log.txt'):
 
             if output != expected_output:
                 log.write(f"Mismatch found in {frag_file}.\n")
+                print(f"Mismatch detected in {frag_file}. Check log for details.")
                 log.write("Expected Output:\n")
                 log.write(expected_output)
                 log.write("\nActual Output:\n")
                 log.write(output)
                 log.write("\n")
             else:
+                print(f"Test case {frag_file} passed.")
                 log.write(f"{frag_file} passed.\n")
+                
+        print("All tests completed. Please review the log file: {log_file} for details.")
 
 
 def test_case_worker(frag_file, test_dir, log_file):
+    print(f"Processing test case: {frag_file}...")
     expected_output_file = os.path.join(
         test_dir, frag_file.replace('.frag', '.out'))
 
@@ -109,12 +115,14 @@ def test_case_worker(frag_file, test_dir, log_file):
 
         if output != expected_output:
             log.write(f"Mismatch found in {frag_file}.\n")
+            print(f"Mismatch detected in {frag_file}. Check log for details.")
             log.write("Expected Output:\n")
             log.write(expected_output)
             log.write("\nActual Output:\n")
             log.write(output)
             log.write("\n")
         else:
+            print(f"Test case {frag_file} passed.")
             log.write(f"{frag_file} passed.\n")
 
 
@@ -138,13 +146,24 @@ def test_scanner_parallel(test_dir='samples', log_file='scanner_test_log.txt', n
                  (frag_file, test_dir, log_file) for frag_file in frag_files])
     pool.close()
     pool.join()
+    print("All tests completed. Please review the log file: {log_file} for details.")
 
 
 if __name__ == "__main__":
-    if compile_scanner():
+    scanner_file = input("Enter the scanner file name (default: scanner.l): ") or 'scanner.l'
+    if compile_scanner(scanner_file):
         use_parallel_testing = input("Do you want to run tests in parallel? (y/n): ").lower() == 'y'
         if use_parallel_testing:
             num_processes = int(input("Enter the number of parallel processes to use (default: 4): ") or '4')
-            test_scanner_parallel(num_processes=num_processes)
+
+        test_dir = input("Enter the test directory (default: samples): ") or 'samples'
+
+        print("Starting parallel testing of scanner on .frag files in {test_dir}...")
+        # Generate a new log file with a timestamp
+        now = datetime.datetime.now()
+        log_file = f"scanner_test_log_{now.strftime('%m%d_%H%M')}.txt"
+
+        if use_parallel_testing:
+            test_scanner_parallel(test_dir=test_dir, log_file=log_file, num_processes=num_processes)
         else:
-            test_scanner()
+            test_scanner(test_dir=test_dir, log_file=log_file)
