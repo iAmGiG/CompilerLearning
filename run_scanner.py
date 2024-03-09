@@ -2,6 +2,7 @@ import subprocess
 import glob
 import os
 import datetime
+import multiprocessing
 
 
 def run_command(command):
@@ -89,6 +90,61 @@ def test_scanner(test_dir='samples', log_file='scanner_test_log.txt'):
                 log.write(f"{frag_file} passed.\n")
 
 
+def test_case_worker(frag_file, test_dir, log_file):
+    expected_output_file = os.path.join(
+        test_dir, frag_file.replace('.frag', '.out'))
+
+    if not os.path.exists(expected_output_file):
+        with open(log_file, 'a') as log:
+            log.write(f"No .out file for {frag_file}. Skipping...\n")
+        return
+
+    with open(log_file, 'a') as log:
+        log.write(f"Testing {frag_file}...\n")
+        output, _, _ = run_command(
+            f"./scanner {os.path.join(test_dir, frag_file)}")
+
+        with open(expected_output_file, 'r') as f:
+            expected_output = f.read()
+
+        if output != expected_output:
+            log.write(f"Mismatch found in {frag_file}.\n")
+            log.write("Expected Output:\n")
+            log.write(expected_output)
+            log.write("\nActual Output:\n")
+            log.write(output)
+            log.write("\n")
+        else:
+            log.write(f"{frag_file} passed.\n")
+
+
+def test_scanner_parallel(test_dir='samples', log_file='scanner_test_log.txt', num_processes=4):
+    '''
+    Tests the compiled scanner against a set of sample input files (`.frag` files) in parallel
+    and compares the output with the expected output (`.out` files) in the specified test directory.
+    Writes detailed logs to the specified log file.
+
+    Args:
+        test_dir (str, optional): The directory containing the test files. Default is 'samples'.
+        log_file (str, optional): The name of the log file. Default is 'scanner_test_log.txt'.
+        num_processes (int, optional): The number of parallel processes to use. Default is 4.
+    '''
+    with open(log_file, 'w') as log:
+        log.write(f"Scanner Test Log - {datetime.datetime.now()}\n\n")
+
+    frag_files = glob.glob(os.path.join(test_dir, "*.frag"))
+    pool = multiprocessing.Pool(processes=num_processes)
+    pool.starmap(test_case_worker, [
+                 (frag_file, test_dir, log_file) for frag_file in frag_files])
+    pool.close()
+    pool.join()
+
+
 if __name__ == "__main__":
     if compile_scanner():
-        test_scanner()
+        use_parallel_testing = input("Do you want to run tests in parallel? (y/n): ").lower() == 'y'
+        if use_parallel_testing:
+            num_processes = int(input("Enter the number of parallel processes to use (default: 4): ") or '4')
+            test_scanner_parallel(num_processes=num_processes)
+        else:
+            test_scanner()
