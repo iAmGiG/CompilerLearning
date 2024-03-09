@@ -1,7 +1,8 @@
 # Compiler Project
 
 ```bash
-update readme.md to use flex details.
+This branch is here to hold the old working py code, the dev branch will be the for-front still.
+This branch will no long be worked on.
 ```
 
 ## Overview
