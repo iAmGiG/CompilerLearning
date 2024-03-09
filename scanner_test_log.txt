@@ -1,0 +1,581 @@
+Scanner Test Log - 2024-03-09 16:01:03.727187
+
+Testing samples/badbool.frag...
+Mismatch found in samples/badbool.frag.
+Expected Output:
+TRUE         line 1 cols 1-4 is T_Identifier 
+FALSE        line 3 cols 1-5 is T_Identifier 
+True         line 5 cols 1-4 is T_Identifier 
+False        line 7 cols 1-5 is T_Identifier 
+
+Actual Output:
+BOOLEAN: TRUE	 line 1 cols 1-4
+BOOLEAN: FALSE	 line 3 cols 1-5
+BOOLEAN: True	 line 5 cols 1-4
+BOOLEAN: False	 line 7 cols 1-5
+
+Testing samples/reserve_op.frag...
+Mismatch found in samples/reserve_op.frag.
+Expected Output:
+void         line 2 cols 1-4 is T_Void 
+int          line 3 cols 1-3 is T_Int 
+double       line 4 cols 1-6 is T_Double 
+string       line 5 cols 1-6 is T_String 
+while        line 6 cols 1-5 is T_While 
+if           line 7 cols 1-2 is T_If 
+else         line 8 cols 1-4 is T_Else 
+return       line 9 cols 1-6 is T_Return 
+break        line 10 cols 1-5 is T_Break 
+true         line 11 cols 1-4 is T_BoolConstant (value = true)
+false        line 12 cols 1-5 is T_BoolConstant (value = false)
++            line 13 cols 1-1 is '+' 
+-            line 14 cols 1-1 is '-' 
+*            line 15 cols 1-1 is '*' 
+/            line 16 cols 1-1 is '/' 
+<            line 17 cols 1-1 is '<' 
+>            line 18 cols 1-1 is '>' 
+=            line 19 cols 1-1 is '=' 
+;            line 20 cols 1-1 is ';' 
+,            line 21 cols 1-1 is ',' 
+!            line 22 cols 1-1 is '!' 
+{            line 23 cols 1-1 is '{' 
+}            line 24 cols 1-1 is '}' 
+(            line 25 cols 1-1 is '(' 
+)            line 26 cols 1-1 is ')' 
+||           line 27 cols 1-2 is T_Or 
+<=           line 28 cols 1-2 is T_LessEqual 
+>=           line 29 cols 1-2 is T_GreaterEqual 
+==           line 30 cols 1-2 is T_Equal 
+
+Actual Output:
+IDENTIFIER: void	 line 2 cols 1-4
+IDENTIFIER: int	 line 3 cols 1-3
+IDENTIFIER: double	 line 4 cols 1-6
+IDENTIFIER: string	 line 5 cols 1-6
+IDENTIFIER: while	 line 6 cols 1-5
+IDENTIFIER: if	 line 7 cols 1-2
+IDENTIFIER: else	 line 8 cols 1-4
+IDENTIFIER: return	 line 9 cols 1-6
+IDENTIFIER: break	 line 10 cols 1-5
+BOOLEAN: true	 line 11 cols 1-4
+BOOLEAN: false	 line 12 cols 1-5
+UNKNOWN or INVALID TOKEN: +	 line 13 cols 1-1
+UNKNOWN or INVALID TOKEN: -	 line 14 cols 1-1
+UNKNOWN or INVALID TOKEN: *	 line 15 cols 1-1
+UNKNOWN or INVALID TOKEN: /	 line 16 cols 1-1
+UNKNOWN or INVALID TOKEN: <	 line 17 cols 1-1
+UNKNOWN or INVALID TOKEN: >	 line 18 cols 1-1
+UNKNOWN or INVALID TOKEN: =	 line 19 cols 1-1
+UNKNOWN or INVALID TOKEN: ;	 line 20 cols 1-1
+UNKNOWN or INVALID TOKEN: ,	 line 21 cols 1-1
+UNKNOWN or INVALID TOKEN: !	 line 22 cols 1-1
+UNKNOWN or INVALID TOKEN: {	 line 23 cols 1-1
+UNKNOWN or INVALID TOKEN: }	 line 24 cols 1-1
+UNKNOWN or INVALID TOKEN: (	 line 25 cols 1-1
+UNKNOWN or INVALID TOKEN: )	 line 26 cols 1-1
+UNKNOWN or INVALID TOKEN: |	 line 27 cols 1-1
+UNKNOWN or INVALID TOKEN: |	 line 27 cols 2-2
+UNKNOWN or INVALID TOKEN: <	 line 28 cols 1-1
+UNKNOWN or INVALID TOKEN: =	 line 28 cols 2-2
+UNKNOWN or INVALID TOKEN: >	 line 29 cols 1-1
+UNKNOWN or INVALID TOKEN: =	 line 29 cols 2-2
+UNKNOWN or INVALID TOKEN: =	 line 30 cols 1-1
+UNKNOWN or INVALID TOKEN: =	 line 30 cols 2-2
+
+Testing samples/badop.frag...
+Mismatch found in samples/badop.frag.
+Expected Output:
+=            line 1 cols 1-1 is '=' 
+!            line 1 cols 2-2 is '!' 
+
+*** Error line 2.
+*** Unrecognized char: '$'
+
+
+*** Error line 3.
+*** Unrecognized char: '@'
+
+
+*** Error line 4.
+*** Unrecognized char: '$'
+
+
+*** Error line 5.
+*** Unrecognized char: '^'
+
+
+*** Error line 6.
+*** Unrecognized char: '&'
+
+
+*** Error line 7.
+*** Unrecognized char: '~'
+
+
+*** Error line 8.
+*** Unrecognized char: '`'
+
+
+*** Error line 9.
+*** Unrecognized char: '?'
+
+
+Actual Output:
+UNKNOWN or INVALID TOKEN: =	 line 1 cols 1-1
+UNKNOWN or INVALID TOKEN: !	 line 1 cols 2-2
+UNKNOWN or INVALID TOKEN: $	 line 2 cols 1-1
+UNKNOWN or INVALID TOKEN: @	 line 3 cols 1-1
+UNKNOWN or INVALID TOKEN: $	 line 4 cols 1-1
+UNKNOWN or INVALID TOKEN: ^	 line 5 cols 1-1
+UNKNOWN or INVALID TOKEN: &	 line 6 cols 1-1
+UNKNOWN or INVALID TOKEN: ~	 line 7 cols 1-1
+UNKNOWN or INVALID TOKEN: `	 line 8 cols 1-1
+UNKNOWN or INVALID TOKEN: ?	 line 9 cols 1-1
+
+Testing samples/badpre.frag...
+Mismatch found in samples/badpre.frag.
+Expected Output:
+
+*** Error line 1.
+*** Invalid # directive
+
+
+*** Error line 3.
+*** Invalid # directive
+
+*            line 8 cols 1-1 is '*' 
+/            line 8 cols 2-2 is '/' 
+
+Actual Output:
+UNKNOWN or INVALID TOKEN: #	 line 1 cols 1-1
+IDENTIFIER: define	 line 1 cols 2-7
+123	 line 1 cols 9-11 is T_Double
+IDENTIFIER: bogus	 line 1 cols 13-17
+UNKNOWN or INVALID TOKEN: #	 line 3 cols 1-1
+IDENTIFIER: UNKNOWN	 line 3 cols 2-8
+UNKNOWN or INVALID TOKEN: /	 line 5 cols 1-1
+UNKNOWN or INVALID TOKEN: *	 line 5 cols 2-2
+UNKNOWN or INVALID TOKEN: /	 line 6 cols 1-1
+UNKNOWN or INVALID TOKEN: *	 line 6 cols 2-2
+IDENTIFIER: Decaf	 line 6 cols 6-10
+IDENTIFIER: comments	 line 6 cols 12-19
+IDENTIFIER: don	 line 6 cols 21-23
+UNKNOWN or INVALID TOKEN: '	 line 6 cols 24-24
+IDENTIFIER: t	 line 6 cols 25-25
+IDENTIFIER: nest	 line 6 cols 27-30
+UNKNOWN or INVALID TOKEN: !	 line 6 cols 31-31
+UNKNOWN or INVALID TOKEN: *	 line 7 cols 1-1
+UNKNOWN or INVALID TOKEN: /	 line 7 cols 2-2
+UNKNOWN or INVALID TOKEN: *	 line 8 cols 1-1
+UNKNOWN or INVALID TOKEN: /	 line 8 cols 2-2
+
+Testing samples/badreserve.frag...
+Mismatch found in samples/badreserve.frag.
+Expected Output:
+voidB        line 1 cols 1-5 is T_Identifier 
+classs       line 3 cols 1-6 is T_Identifier 
+newarray     line 5 cols 1-8 is T_Identifier 
+newArray     line 7 cols 1-8 is T_Identifier 
+Newarray     line 9 cols 1-8 is T_Identifier 
+protected    line 11 cols 1-9 is T_Identifier 
+float        line 13 cols 1-5 is T_Identifier 
+char         line 15 cols 1-4 is T_Identifier 
+short        line 17 cols 1-5 is T_Identifier 
+PrintString  line 19 cols 1-11 is T_Identifier 
+
+Actual Output:
+IDENTIFIER: voidB	 line 1 cols 1-5
+IDENTIFIER: classs	 line 3 cols 1-6
+IDENTIFIER: newarray	 line 5 cols 1-8
+IDENTIFIER: newArray	 line 7 cols 1-8
+IDENTIFIER: Newarray	 line 9 cols 1-8
+IDENTIFIER: protected	 line 11 cols 1-9
+IDENTIFIER: float	 line 13 cols 1-5
+IDENTIFIER: char	 line 15 cols 1-4
+IDENTIFIER: short	 line 17 cols 1-5
+IDENTIFIER: PrintString	 line 19 cols 1-11
+
+Testing samples/badint.frag...
+Mismatch found in samples/badint.frag.
+Expected Output:
+0            line 2 cols 1-1 is T_IntConstant (value = 0)
+x            line 2 cols 2-2 is T_Identifier 
+Ox12         line 4 cols 1-4 is T_Identifier 
+0            line 6 cols 1-1 is T_IntConstant (value = 0)
+xg           line 6 cols 2-3 is T_Identifier 
+
+Actual Output:
+0	 line 2 cols 1-1 is T_Double
+IDENTIFIER: x	 line 2 cols 2-2
+IDENTIFIER: Ox12	 line 4 cols 1-4
+0	 line 6 cols 1-1 is T_Double
+IDENTIFIER: xg	 line 6 cols 2-3
+
+Testing samples/number.frag...
+Mismatch found in samples/number.frag.
+Expected Output:
+1            line 2 cols 1-1 is T_IntConstant (value = 1)
+0            line 4 cols 1-1 is T_IntConstant (value = 0)
+001          line 6 cols 1-3 is T_IntConstant (value = 1)
+123456789    line 8 cols 1-9 is T_IntConstant (value = 123456789)
+9991123      line 10 cols 1-7 is T_IntConstant (value = 9991123)
+0.12         line 12 cols 1-4 is T_DoubleConstant (value = 0.12)
+2.12         line 14 cols 1-4 is T_DoubleConstant (value = 2.12)
+12.2E+2      line 16 cols 1-7 is T_DoubleConstant (value = 1220)
+12.E+2       line 18 cols 1-6 is T_DoubleConstant (value = 1200)
+12.E+002     line 20 cols 1-8 is T_DoubleConstant (value = 1200)
+
+Actual Output:
+1	 line 2 cols 1-1 is T_Double
+0	 line 4 cols 1-1 is T_Double
+001	 line 6 cols 1-3 is T_Double
+123456789	 line 8 cols 1-9 is T_Double
+9991123	 line 10 cols 1-7 is T_Double
+0.12	 line 12 cols 1-4 is T_Double
+2.12	 line 14 cols 1-4 is T_Double
+12.2E+2	 line 16 cols 1-7 is T_Double
+12.E+2	 line 18 cols 1-6 is T_Double
+12.E+002	 line 20 cols 1-8 is T_Double
+
+Testing samples/badident.frag...
+Mismatch found in samples/badident.frag.
+Expected Output:
+vari         line 1 cols 1-4 is T_Identifier 
+.            line 1 cols 5-5 is '.' 
+able         line 1 cols 6-9 is T_Identifier 
+3            line 2 cols 1-1 is T_IntConstant (value = 3)
+variable     line 2 cols 2-9 is T_Identifier 
+variable     line 3 cols 1-8 is T_Identifier 
+/            line 3 cols 9-9 is '/' 
+123          line 3 cols 10-12 is T_IntConstant (value = 123)
+var          line 4 cols 1-3 is T_Identifier 
+-            line 4 cols 4-4 is '-' 
+123          line 4 cols 5-7 is T_IntConstant (value = 123)
+
+*** Error line 5.
+*** Identifier too long: "variable_whose_name_is_much_too_long"
+
+variable_whose_name_is_much_too_long line 5 cols 1-36 is T_Identifier (truncated to variable_whose_name_is_much_too)
+
+Actual Output:
+IDENTIFIER: vari	 line 1 cols 1-4
+UNKNOWN or INVALID TOKEN: .	 line 1 cols 5-5
+IDENTIFIER: able	 line 1 cols 6-9
+3	 line 2 cols 1-1 is T_Double
+IDENTIFIER: variable	 line 2 cols 2-9
+IDENTIFIER: variable	 line 3 cols 1-8
+UNKNOWN or INVALID TOKEN: /	 line 3 cols 9-9
+123	 line 3 cols 10-12 is T_Double
+IDENTIFIER: var	 line 4 cols 1-3
+UNKNOWN or INVALID TOKEN: -	 line 4 cols 4-4
+123	 line 4 cols 5-7 is T_Double
+IDENTIFIER: variable_whose_name_is_much_too	 line 5 cols 1-31
+IDENTIFIER: _long	 line 5 cols 32-36
+
+Testing samples/baddouble.frag...
+Mismatch found in samples/baddouble.frag.
+Expected Output:
+.            line 2 cols 1-1 is '.' 
+12           line 2 cols 2-3 is T_IntConstant (value = 12)
+.            line 4 cols 1-1 is '.' 
+12           line 4 cols 2-3 is T_IntConstant (value = 12)
+E            line 4 cols 4-4 is T_Identifier 
++            line 4 cols 5-5 is '+' 
+2            line 4 cols 6-6 is T_IntConstant (value = 2)
+1.12         line 6 cols 1-4 is T_DoubleConstant (value = 1.12)
+E            line 6 cols 5-5 is T_Identifier 
++            line 6 cols 6-6 is '+' 
+-            line 6 cols 7-7 is '-' 
+2            line 6 cols 8-8 is T_IntConstant (value = 2)
+
+Actual Output:
+UNKNOWN or INVALID TOKEN: .	 line 2 cols 1-1
+12	 line 2 cols 2-3 is T_Double
+UNKNOWN or INVALID TOKEN: .	 line 4 cols 1-1
+12E+2	 line 4 cols 2-6 is T_Double
+1.12	 line 6 cols 1-4 is T_Double
+IDENTIFIER: E	 line 6 cols 5-5
+UNKNOWN or INVALID TOKEN: +	 line 6 cols 6-6
+UNKNOWN or INVALID TOKEN: -	 line 6 cols 7-7
+2	 line 6 cols 8-8 is T_Double
+
+Testing samples/define.frag...
+Mismatch found in samples/define.frag.
+Expected Output:
+void         line 6 cols 1-4 is T_Void 
+main         line 6 cols 6-9 is T_Identifier 
+(            line 6 cols 10-10 is '(' 
+)            line 6 cols 11-11 is ')' 
+{            line 7 cols 3-3 is '{' 
+Print        line 8 cols 5-9 is T_Identifier 
+(            line 8 cols 10-10 is '(' 
+2            line 8 cols 11-11 is T_IntConstant (value = 2)
++            line 8 cols 13-13 is '+' 
+2            line 8 cols 15-15 is T_IntConstant (value = 2)
+*            line 8 cols 17-17 is '*' 
+10           line 8 cols 19-20 is T_IntConstant (value = 10)
+)            line 8 cols 21-21 is ')' 
+;            line 8 cols 22-22 is ';' 
+}            line 9 cols 3-3 is '}' 
+
+Actual Output:
+UNKNOWN or INVALID TOKEN: #	 line 1 cols 1-1
+IDENTIFIER: define	 line 1 cols 2-7
+IDENTIFIER: PROCEDURE	 line 1 cols 9-17
+IDENTIFIER: void	 line 1 cols 19-22
+UNKNOWN or INVALID TOKEN: #	 line 2 cols 1-1
+IDENTIFIER: define	 line 2 cols 2-7
+IDENTIFIER: BEGIN	 line 2 cols 9-13
+UNKNOWN or INVALID TOKEN: {	 line 2 cols 15-15
+UNKNOWN or INVALID TOKEN: #	 line 3 cols 1-1
+IDENTIFIER: define	 line 3 cols 2-7
+IDENTIFIER: END	 line 3 cols 9-11
+UNKNOWN or INVALID TOKEN: }	 line 3 cols 13-13
+UNKNOWN or INVALID TOKEN: #	 line 4 cols 1-1
+IDENTIFIER: define	 line 4 cols 2-7
+IDENTIFIER: BINKY	 line 4 cols 9-13
+2	 line 4 cols 15-15 is T_Double
+UNKNOWN or INVALID TOKEN: +	 line 4 cols 17-17
+2	 line 4 cols 19-19 is T_Double
+UNKNOWN or INVALID TOKEN: *	 line 4 cols 21-21
+10	 line 4 cols 23-24 is T_Double
+UNKNOWN or INVALID TOKEN: #	 line 6 cols 1-1
+IDENTIFIER: PROCEDURE	 line 6 cols 2-10
+IDENTIFIER: main	 line 6 cols 12-15
+UNKNOWN or INVALID TOKEN: (	 line 6 cols 16-16
+UNKNOWN or INVALID TOKEN: )	 line 6 cols 17-17
+UNKNOWN or INVALID TOKEN: #	 line 7 cols 3-3
+IDENTIFIER: BEGIN	 line 7 cols 4-8
+IDENTIFIER: Print	 line 8 cols 5-9
+UNKNOWN or INVALID TOKEN: (	 line 8 cols 10-10
+UNKNOWN or INVALID TOKEN: #	 line 8 cols 11-11
+IDENTIFIER: BINKY	 line 8 cols 12-16
+UNKNOWN or INVALID TOKEN: )	 line 8 cols 17-17
+UNKNOWN or INVALID TOKEN: ;	 line 8 cols 18-18
+UNKNOWN or INVALID TOKEN: #	 line 9 cols 3-3
+IDENTIFIER: END	 line 9 cols 4-6
+
+Testing samples/comment.frag...
+Mismatch found in samples/comment.frag.
+Expected Output:
+"all done!"  line 16 cols 1-11 is T_StringConstant (value = "all done!")
+
+Actual Output:
+UNKNOWN or INVALID TOKEN: /	 line 1 cols 1-1
+UNKNOWN or INVALID TOKEN: /	 line 1 cols 2-2
+IDENTIFIER: this	 line 1 cols 4-7
+IDENTIFIER: file	 line 1 cols 9-12
+IDENTIFIER: should	 line 1 cols 14-19
+IDENTIFIER: not	 line 1 cols 21-23
+IDENTIFIER: generate	 line 1 cols 25-32
+IDENTIFIER: any	 line 1 cols 34-36
+IDENTIFIER: output	 line 1 cols 38-43
+UNKNOWN or INVALID TOKEN: /	 line 2 cols 1-1
+UNKNOWN or INVALID TOKEN: /	 line 2 cols 2-2
+IDENTIFIER: here	 line 2 cols 4-7
+IDENTIFIER: is	 line 2 cols 9-10
+IDENTIFIER: a	 line 2 cols 12-12
+IDENTIFIER: comment	 line 2 cols 14-20
+UNKNOWN or INVALID TOKEN: /	 line 3 cols 1-1
+UNKNOWN or INVALID TOKEN: *	 line 3 cols 2-2
+IDENTIFIER: here	 line 3 cols 4-7
+IDENTIFIER: is	 line 3 cols 9-10
+IDENTIFIER: a	 line 3 cols 12-12
+IDENTIFIER: simple	 line 3 cols 14-19
+IDENTIFIER: comment	 line 3 cols 21-27
+UNKNOWN or INVALID TOKEN: *	 line 3 cols 29-29
+UNKNOWN or INVALID TOKEN: /	 line 3 cols 30-30
+UNKNOWN or INVALID TOKEN: /	 line 4 cols 1-1
+UNKNOWN or INVALID TOKEN: *	 line 4 cols 2-2
+IDENTIFIER: here	 line 4 cols 4-7
+IDENTIFIER: is	 line 5 cols 1-2
+IDENTIFIER: a	 line 6 cols 1-1
+IDENTIFIER: multi	 line 7 cols 1-5
+UNKNOWN or INVALID TOKEN: -	 line 7 cols 6-6
+IDENTIFIER: line	 line 7 cols 7-10
+IDENTIFIER: comment	 line 8 cols 1-7
+UNKNOWN or INVALID TOKEN: *	 line 9 cols 1-1
+UNKNOWN or INVALID TOKEN: /	 line 9 cols 2-2
+UNKNOWN or INVALID TOKEN: /	 line 11 cols 1-1
+UNKNOWN or INVALID TOKEN: *	 line 11 cols 2-2
+IDENTIFIER: here	 line 11 cols 4-7
+IDENTIFIER: are	 line 11 cols 9-11
+IDENTIFIER: some	 line 11 cols 13-16
+IDENTIFIER: nasty	 line 11 cols 18-22
+IDENTIFIER: comments	 line 11 cols 24-31
+UNKNOWN or INVALID TOKEN: :	 line 11 cols 32-32
+UNKNOWN or INVALID TOKEN: *	 line 11 cols 34-34
+UNKNOWN or INVALID TOKEN: /	 line 11 cols 35-35
+UNKNOWN or INVALID TOKEN: /	 line 12 cols 1-1
+UNKNOWN or INVALID TOKEN: *	 line 12 cols 2-2
+UNKNOWN or INVALID TOKEN: /	 line 12 cols 4-4
+UNKNOWN or INVALID TOKEN: /	 line 12 cols 5-5
+UNKNOWN or INVALID TOKEN: /	 line 12 cols 6-6
+UNKNOWN or INVALID TOKEN: /	 line 12 cols 7-7
+UNKNOWN or INVALID TOKEN: /	 line 12 cols 8-8
+UNKNOWN or INVALID TOKEN: /	 line 12 cols 10-10
+UNKNOWN or INVALID TOKEN: /	 line 12 cols 11-11
+UNKNOWN or INVALID TOKEN: /	 line 12 cols 12-12
+UNKNOWN or INVALID TOKEN: *	 line 12 cols 14-14
+UNKNOWN or INVALID TOKEN: /	 line 12 cols 15-15
+UNKNOWN or INVALID TOKEN: /	 line 13 cols 1-1
+UNKNOWN or INVALID TOKEN: *	 line 13 cols 2-2
+UNKNOWN or INVALID TOKEN: *	 line 13 cols 3-3
+UNKNOWN or INVALID TOKEN: *	 line 13 cols 4-4
+UNKNOWN or INVALID TOKEN: *	 line 13 cols 5-5
+UNKNOWN or INVALID TOKEN: *	 line 13 cols 6-6
+UNKNOWN or INVALID TOKEN: *	 line 13 cols 7-7
+UNKNOWN or INVALID TOKEN: *	 line 13 cols 8-8
+UNKNOWN or INVALID TOKEN: /	 line 13 cols 9-9
+UNKNOWN or INVALID TOKEN: /	 line 15 cols 1-1
+UNKNOWN or INVALID TOKEN: *	 line 15 cols 2-2
+UNKNOWN or INVALID TOKEN: /	 line 15 cols 7-7
+UNKNOWN or INVALID TOKEN: *	 line 15 cols 8-8
+IDENTIFIER: an	 line 15 cols 10-11
+IDENTIFIER: almost	 line 15 cols 13-18
+UNKNOWN or INVALID TOKEN: -	 line 15 cols 19-19
+IDENTIFIER: nested	 line 15 cols 20-25
+IDENTIFIER: comment	 line 15 cols 27-33
+UNKNOWN or INVALID TOKEN: *	 line 15 cols 35-35
+UNKNOWN or INVALID TOKEN: /	 line 15 cols 36-36
+UNKNOWN or INVALID TOKEN: "	 line 16 cols 1-1
+IDENTIFIER: all	 line 16 cols 2-4
+IDENTIFIER: done	 line 16 cols 6-9
+UNKNOWN or INVALID TOKEN: !	 line 16 cols 10-10
+UNKNOWN or INVALID TOKEN: "	 line 16 cols 11-11
+
+Testing samples/ident.frag...
+Mismatch found in samples/ident.frag.
+Expected Output:
+variable0    line 2 cols 1-9 is T_Identifier 
+Var1         line 4 cols 1-4 is T_Identifier 
+VAR_2        line 6 cols 1-5 is T_Identifier 
+variable_of_many_words_143 line 8 cols 1-26 is T_Identifier 
+vAr4_0987654321 line 10 cols 1-15 is T_Identifier 
+var5___      line 12 cols 1-7 is T_Identifier 
+variable0    line 14 cols 1-9 is T_Identifier 
+variable0    line 16 cols 1-9 is T_Identifier 
+Var1         line 18 cols 1-4 is T_Identifier 
+
+Actual Output:
+IDENTIFIER: variable0	 line 2 cols 1-9
+IDENTIFIER: Var1	 line 4 cols 1-4
+IDENTIFIER: VAR_2	 line 6 cols 1-5
+IDENTIFIER: variable_of_many_words_143	 line 8 cols 1-26
+IDENTIFIER: vAr4_0987654321	 line 10 cols 1-15
+IDENTIFIER: var5___	 line 12 cols 1-7
+IDENTIFIER: variable0	 line 14 cols 1-9
+IDENTIFIER: variable0	 line 16 cols 1-9
+IDENTIFIER: Var1	 line 18 cols 1-4
+
+Testing samples/badstring.frag...
+Mismatch found in samples/badstring.frag.
+Expected Output:
+
+*** Error line 3.
+*** Unterminated string constant: "this is not a
+
+valid        line 4 cols 2-6 is T_Identifier 
+string       line 4 cols 8-13 is T_String 
+constant     line 4 cols 15-22 is T_Identifier 
+
+*** Error line 4.
+*** Unterminated string constant: "
+
+"this is okay, though" line 6 cols 1-22 is T_StringConstant (value = "this is okay, though")
+
+Actual Output:
+UNKNOWN or INVALID TOKEN: "	 line 3 cols 1-1
+IDENTIFIER: this	 line 3 cols 2-5
+IDENTIFIER: is	 line 3 cols 7-8
+IDENTIFIER: not	 line 3 cols 10-12
+IDENTIFIER: a	 line 3 cols 14-14
+IDENTIFIER: valid	 line 4 cols 2-6
+IDENTIFIER: string	 line 4 cols 8-13
+IDENTIFIER: constant	 line 4 cols 15-22
+UNKNOWN or INVALID TOKEN: "	 line 4 cols 23-23
+UNKNOWN or INVALID TOKEN: "	 line 6 cols 1-1
+IDENTIFIER: this	 line 6 cols 2-5
+IDENTIFIER: is	 line 6 cols 7-8
+IDENTIFIER: okay	 line 6 cols 10-13
+UNKNOWN or INVALID TOKEN: ,	 line 6 cols 14-14
+IDENTIFIER: though	 line 6 cols 16-21
+UNKNOWN or INVALID TOKEN: "	 line 6 cols 22-22
+
+Testing samples/string.frag...
+Mismatch found in samples/string.frag.
+Expected Output:
+"valid"      line 3 cols 1-7 is T_StringConstant (value = "valid")
+""           line 5 cols 1-2 is T_StringConstant (value = "")
+" "          line 7 cols 1-3 is T_StringConstant (value = " ")
+"white space can exist in strings" line 9 cols 1-34 is T_StringConstant (value = "white space can exist in strings")
+"more"       line 11 cols 1-6 is T_StringConstant (value = "more")
+"than"       line 11 cols 8-13 is T_StringConstant (value = "than")
+"one"        line 11 cols 15-19 is T_StringConstant (value = "one")
+"string"     line 11 cols 21-28 is T_StringConstant (value = "string")
+"per"        line 11 cols 30-34 is T_StringConstant (value = "per")
+"line"       line 11 cols 36-41 is T_StringConstant (value = "line")
+"even"       line 13 cols 1-6 is T_StringConstant (value = "even")
+"strings"    line 13 cols 7-15 is T_StringConstant (value = "strings")
+"next"       line 13 cols 16-21 is T_StringConstant (value = "next")
+"to"         line 13 cols 22-25 is T_StringConstant (value = "to")
+"strings"    line 13 cols 26-34 is T_StringConstant (value = "strings")
+"@ can exist in strings" line 15 cols 1-24 is T_StringConstant (value = "@ can exist in strings")
+
+Actual Output:
+UNKNOWN or INVALID TOKEN: "	 line 3 cols 1-1
+IDENTIFIER: valid	 line 3 cols 2-6
+UNKNOWN or INVALID TOKEN: "	 line 3 cols 7-7
+UNKNOWN or INVALID TOKEN: "	 line 5 cols 1-1
+UNKNOWN or INVALID TOKEN: "	 line 5 cols 2-2
+UNKNOWN or INVALID TOKEN: "	 line 7 cols 1-1
+UNKNOWN or INVALID TOKEN: "	 line 7 cols 3-3
+UNKNOWN or INVALID TOKEN: "	 line 9 cols 1-1
+IDENTIFIER: white	 line 9 cols 2-6
+IDENTIFIER: space	 line 9 cols 8-12
+IDENTIFIER: can	 line 9 cols 14-16
+IDENTIFIER: exist	 line 9 cols 18-22
+IDENTIFIER: in	 line 9 cols 24-25
+IDENTIFIER: strings	 line 9 cols 27-33
+UNKNOWN or INVALID TOKEN: "	 line 9 cols 34-34
+UNKNOWN or INVALID TOKEN: "	 line 11 cols 1-1
+IDENTIFIER: more	 line 11 cols 2-5
+UNKNOWN or INVALID TOKEN: "	 line 11 cols 6-6
+UNKNOWN or INVALID TOKEN: "	 line 11 cols 8-8
+IDENTIFIER: than	 line 11 cols 9-12
+UNKNOWN or INVALID TOKEN: "	 line 11 cols 13-13
+UNKNOWN or INVALID TOKEN: "	 line 11 cols 15-15
+IDENTIFIER: one	 line 11 cols 16-18
+UNKNOWN or INVALID TOKEN: "	 line 11 cols 19-19
+UNKNOWN or INVALID TOKEN: "	 line 11 cols 21-21
+IDENTIFIER: string	 line 11 cols 22-27
+UNKNOWN or INVALID TOKEN: "	 line 11 cols 28-28
+UNKNOWN or INVALID TOKEN: "	 line 11 cols 30-30
+IDENTIFIER: per	 line 11 cols 31-33
+UNKNOWN or INVALID TOKEN: "	 line 11 cols 34-34
+UNKNOWN or INVALID TOKEN: "	 line 11 cols 36-36
+IDENTIFIER: line	 line 11 cols 37-40
+UNKNOWN or INVALID TOKEN: "	 line 11 cols 41-41
+UNKNOWN or INVALID TOKEN: "	 line 13 cols 1-1
+IDENTIFIER: even	 line 13 cols 2-5
+UNKNOWN or INVALID TOKEN: "	 line 13 cols 6-6
+UNKNOWN or INVALID TOKEN: "	 line 13 cols 7-7
+IDENTIFIER: strings	 line 13 cols 8-14
+UNKNOWN or INVALID TOKEN: "	 line 13 cols 15-15
+UNKNOWN or INVALID TOKEN: "	 line 13 cols 16-16
+IDENTIFIER: next	 line 13 cols 17-20
+UNKNOWN or INVALID TOKEN: "	 line 13 cols 21-21
+UNKNOWN or INVALID TOKEN: "	 line 13 cols 22-22
+IDENTIFIER: to	 line 13 cols 23-24
+UNKNOWN or INVALID TOKEN: "	 line 13 cols 25-25
+UNKNOWN or INVALID TOKEN: "	 line 13 cols 26-26
+IDENTIFIER: strings	 line 13 cols 27-33
+UNKNOWN or INVALID TOKEN: "	 line 13 cols 34-34
+UNKNOWN or INVALID TOKEN: "	 line 15 cols 1-1
+UNKNOWN or INVALID TOKEN: @	 line 15 cols 2-2
+IDENTIFIER: can	 line 15 cols 4-6
+IDENTIFIER: exist	 line 15 cols 8-12
+IDENTIFIER: in	 line 15 cols 14-15
+IDENTIFIER: strings	 line 15 cols 17-23
+UNKNOWN or INVALID TOKEN: "	 line 15 cols 24-24
+
