@@ -71,9 +71,10 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
     char_pos += strlen(yytext);
 }
 
+. { ++char_pos; }
+
 [^\ \t\n]+                              { printf("*** Error line %d.\n*** Unrecognized char: '%s'\n", line_num, yytext); } /* Catch-all for unrecognized tokens */
 
-. { ++char_pos; }
 
 %%
 
