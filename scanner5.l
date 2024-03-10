@@ -17,13 +17,13 @@ int char_pos = 1; // Initialize character position
     char_pos += strlen(yytext);
 }
 
-([a-zA-Z][a-zA-Z0-9_]{0,30})             {
-    printf("%s\tline %d cols %d-%d is T_Identifier\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1);
+(true|false)                             {
+    printf("%s\tline %d cols %d-%d is T_Boolean\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1);
     char_pos += strlen(yytext);
 }
 
-(true|false)                             {
-    printf("%s\tline %d cols %d-%d is T_Boolean\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1);
+([a-zA-Z][a-zA-Z0-9_]{0,30})             {
+    printf("%s\tline %d cols %d-%d is T_Identifier\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1);
     char_pos += strlen(yytext);
 }
 
