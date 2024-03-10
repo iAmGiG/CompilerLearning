@@ -58,10 +58,15 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
     char_pos += strlen(yytext); // Update char_pos after handling the token
 }
 
-[0-9]+("."[0-9]*)?([Ee][+-]?[0-9]+) {
-    double value = atof(yytext); // Convert the string to a double value, including scientific notation
+[0-9]+"."[0-9]* | [0-9]+("." [0-9]+)?([Ee][+\-]?[0-9]+) {
+    double value = atof(yytext);
     printf("%s\tline %d cols %d-%d is T_DoubleConstant (value = %g)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
-    char_pos += strlen(yytext); // Update char_pos after handling the token
+    char_pos += strlen(yytext);
+}
+
+"E" | "e" {
+    printf("%c\tline %d cols %d-%d is T_Identifier\n", yytext[0], line_num, char_pos, char_pos);
+    char_pos += 1;
 }
 
 \"([^"\\]|\\.)*\" {
