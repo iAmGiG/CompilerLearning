@@ -90,9 +90,8 @@ def test_scanner(test_dir='samples', log_file='scanner_test_log.txt'):
                 log.write("\n")
             else:
                 print(f"Test case {frag_file} passed.")
-                log.write(f"{frag_file} passed.\n")
-                
-        print("All tests completed. Please review the log file: {log_file} for details.")
+                log.write(f"{frag_file} passed.\n")     
+        print(f"All tests completed. Please review the log file: {log_file} for details.")
 
 
 def test_case_worker(frag_file, test_dir, log_file):
@@ -146,7 +145,7 @@ def test_scanner_parallel(test_dir='samples', log_file='scanner_test_log.txt', n
                  (frag_file, test_dir, log_file) for frag_file in frag_files])
     pool.close()
     pool.join()
-    print("All tests completed. Please review the log file: {log_file} for details.")
+    print(f"All tests completed. Please review the log file: {log_file} for details.")
 
 
 if __name__ == "__main__":
