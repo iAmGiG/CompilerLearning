@@ -71,10 +71,8 @@ int char_pos = 0; // Initialize char_pos to track start position of tokens
     char_pos += strlen(yytext);
 }
 
-.                                        { /* Catch-all for any unrecognized character */
-    printf("*** Error line %d.\n", line_num);
-    printf("*** Unrecognized char: '%c'\n", yytext[0]);
-}
+[^\ \t\n]+                              { printf("*** Error line %d.\n*** Unrecognized char: '%s'\n", line_num, yytext); } /* Catch-all for unrecognized tokens */
+
 %%
 
 int yywrap(void) {
