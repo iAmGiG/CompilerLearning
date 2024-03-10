@@ -1,14 +1,13 @@
 %{
 #include <stdio.h>
 int line_num = 1;
-int char_pos = 0; // Initialize char_pos to track start position of tokens
+int char_pos = 1; // Initialize at 1 for the start of a new line
 %}
 
 %%
 
-\n                                      { ++line_num; char_pos = 0; }
-[ \t]                                    { /* Ignore tab for char position */ }
-[ \t]+                                   { /* Ignore whitespace */ }
+\n  { ++line_num; char_pos = 1; }
+[ \t]+ { char_pos += strlen(yytext); } // Adjust position for whitespace
 
 "void"                                  { printf("void\t\t line %d cols %d-%d is T_Void\n", line_num, char_pos + 1, char_pos + 4); }
 "int"                                   { printf("int\t\t line %d cols %d-%d is T_Int\n", line_num, char_pos + 1, char_pos + 3); }
@@ -52,12 +51,13 @@ int char_pos = 0; // Initialize char_pos to track start position of tokens
 }
 
 [0-9]+ {
-    printf("%s\t\t line %d cols %d-%d is T_IntConstant (value = %s)\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1, yytext);
+    printf("%s\tline %d cols %d-%d is T_IntConstant (value = %s)\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1, yytext);
     char_pos += strlen(yytext);
 }
 
 [0-9]+"."[0-9]*([Ee][+-]?[0-9]+)? {
-    printf("%s\t\t line %d cols %d-%d is T_DoubleConstant (value = %s)\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1, yytext);
+    // For simplicity, this just prints the matched text as is, without conversion
+    printf("%s\tline %d cols %d-%d is T_DoubleConstant (value = %s)\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1, yytext);
     char_pos += strlen(yytext);
 }
 
@@ -72,6 +72,8 @@ int char_pos = 0; // Initialize char_pos to track start position of tokens
 }
 
 [^\ \t\n]+                              { printf("*** Error line %d.\n*** Unrecognized char: '%s'\n", line_num, yytext); } /* Catch-all for unrecognized tokens */
+
+. { ++char_pos; }
 
 %%
 
