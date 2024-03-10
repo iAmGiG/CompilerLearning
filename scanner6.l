@@ -51,13 +51,13 @@ int char_pos = 0; // Initialize char_pos to track start position of tokens
     char_pos += strlen(yytext);
 }
 
-[0-9]+                                   {
-    printf("%s\tline %d cols %d-%d is T_DecimalInteger\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1);
+[0-9]+ {
+    printf("%s\t\t line %d cols %d-%d is T_IntConstant (value = %s)\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1, yytext);
     char_pos += strlen(yytext);
 }
 
-[0-9]+"."[0-9]*([Ee][+-]?[0-9]+)?        {
-    printf("%s\tline %d cols %d-%d is T_Double\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1);
+[0-9]+"."[0-9]*([Ee][+-]?[0-9]+)? {
+    printf("%s\t\t line %d cols %d-%d is T_DoubleConstant (value = %s)\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1, yytext);
     char_pos += strlen(yytext);
 }
 
