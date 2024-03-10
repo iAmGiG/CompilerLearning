@@ -52,8 +52,9 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 }
 
 [0-9]+ {
-    printf("%s\tline %d cols %d-%d is T_IntConstant (value = %s)\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1, yytext);
-    char_pos += strlen(yytext);
+    int value = atoi(yytext); // Convert the string to an integer, removing leading zeroes
+    printf("%s\tline %d cols %d-%d is T_IntConstant (value = %d)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
+    char_pos += strlen(yytext); // Update char_pos after handling the token
 }
 
 [0-9]+("."[0-9]*)?([Ee][+-]?[0-9]+) {
