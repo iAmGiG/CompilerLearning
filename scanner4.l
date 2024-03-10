@@ -25,13 +25,9 @@ void update_position(const char *text) {
 \n { line_num++; char_pos = 0; start_pos = 1; }
 . { char_pos++; }
 
-/* Adjust token patterns here */
-/* Example pattern for an identifier, including special handling for certain boolean values */
 TRUE|FALSE|True|False|[a-zA-Z][a-zA-Z0-9_]{0,30} {
     update_position(yytext);
     TOKEN_INFO(T_Identifier);
 }
-
-/* Add other token patterns as needed, each followed by the TOKEN_INFO macro call */
 
 %%
