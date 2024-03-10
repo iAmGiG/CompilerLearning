@@ -89,14 +89,10 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 [\$\@\^\&\~\`\?]+ {
     printf("*** Error line %d.\n", line_num);
     for (int i = 0; yytext[i] != '\0'; i++) {
-        if (i > 0) printf("\n"); 
-        printf("*** Unrecognized char: '%c'", yytext[i]);
-        char_pos++;
+        printf("*** Unrecognized char: '%c' at position %d\n", yytext[i], char_pos + i);
     }
-    printf("\n");
-    char_pos += strlen(yytext) - 1; 
+    char_pos += strlen(yytext); // Correctly update char_pos after reporting all characters
 }
-
 
 "." { printf(".\tline %d cols %d-%d is '.'\n", line_num, char_pos, char_pos); char_pos += 1; }
 
