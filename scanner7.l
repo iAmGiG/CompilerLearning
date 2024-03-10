@@ -84,11 +84,6 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
     char_pos += strlen(yytext);
 }
 
-"." { printf(".\tline %d cols %d-%d is '.'\n", line_num, char_pos, char_pos); char_pos += 1; }
-
-. { printf("*** Error line %d.\n*** Unrecognized char: '%c'\n", line_num, yytext[0]); char_pos++; }
-
-
 %%
 
 int main(int argc, char **argv) {
