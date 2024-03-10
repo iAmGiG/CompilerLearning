@@ -1,5 +1,6 @@
 %{
 #include <stdio.h>
+#include "tokens.h"
 #define MAX_IDENTIFIER_LENGTH 31
 int line_num = 1;
 int column_num = 1;
