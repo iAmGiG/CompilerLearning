@@ -61,7 +61,7 @@
     column_num += yyleng;
 }
 
-% %
+%%
 
     int main(int argc, char **argv)
 {
