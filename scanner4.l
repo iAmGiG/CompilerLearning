@@ -18,13 +18,13 @@ int end_char_pos = 0;
     start_char_pos += strlen(yytext);
 }
 
-([a-zA-Z][a-zA-Z0-9_]{0,30})             {
-    printf("%s\tline %d cols %d-%d is T_Identifier\n", yytext, line_num, start_char_pos + 1, start_char_pos + (int)strlen(yytext));
+(true|false)                             {
+    printf("%s\tline %d cols %d-%d is T_Boolean\n", yytext, line_num, start_char_pos + 1, start_char_pos + (int)strlen(yytext));
     start_char_pos += strlen(yytext);
 }
 
-(true|false)                             {
-    printf("%s\tline %d cols %d-%d is T_Boolean\n", yytext, line_num, start_char_pos + 1, start_char_pos + (int)strlen(yytext));
+([a-zA-Z][a-zA-Z0-9_]{0,30})             {
+    printf("%s\tline %d cols %d-%d is T_Identifier\n", yytext, line_num, start_char_pos + 1, start_char_pos + (int)strlen(yytext));
     start_char_pos += strlen(yytext);
 }
 
