@@ -63,10 +63,15 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
     char_pos += strlen(yytext); // Update char_pos after handling the token
 }
 
-\"([^"\n]|\\.)*\"                        {
-    printf("%s\tline %d cols %d-%d is T_String\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1);
-    char_pos += strlen(yytext);
+\"([^"\\]|\\.)*\" {
+    // yytext contains the matched text, including the surrounding double quotes
+    // Removing leading and trailing double quotes for presentation in the value field
+    char* stringValue = strndup(yytext + 1, strlen(yytext) - 2);
+    printf("%s\tline %d cols %d-%d is T_StringConstant (value = \"%s\")\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), stringValue);
+    char_pos += strlen(yytext); // Update char_pos after handling the token
+    free(stringValue); // Free the duplicated string
 }
+
 
 [+\-*/%<>=!&|;,.(){}]+                   {
     printf("%s\tline %d cols %d-%d is T_Operator\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1);
@@ -80,26 +85,11 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 
 %%
 
-int main(int argc, char **argv)
-{
-    if (argc > 1)
-    {
-        FILE *file;
-        file = fopen(argv[1], "r");
-        if (!file)
-        {
-            perror(argv[1]);
-            return 1;
-        }
-        yyin = file;
-    }
+int yywrap(void) {
+    return 1;
+}
 
+int main(void) {
     yylex();
-
-    if (argc > 1)
-    {
-        fclose(yyin);
-    }
-
     return 0;
 }
