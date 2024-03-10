@@ -52,21 +52,15 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 }
 
 [0-9]+ {
-    int value = atoi(yytext);
-    printf("%s\tline %d cols %d-%d is T_IntConstant (value = %d)\n", yytext, line_num, char_pos, char_pos + strlen(yytext) - 1, value);
-    char_pos += strlen(yytext);
+    int value = atoi(yytext); // Convert the string to an integer, removing leading zeroes
+    printf("%s\tline %d cols %d-%d is T_IntConstant (value = %d)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
+    char_pos += strlen(yytext); // Update char_pos after handling the token
 }
 
-
-[0-9]+"."[0-9]*([Ee][+-]?[0-9]+)? {
-    double value = atof(yytext);
-    printf("%s\tline %d cols %d-%d is T_DoubleConstant (value = %g)\n", yytext, line_num, char_pos, char_pos + strlen(yytext) - 1, value);
-    char_pos += strlen(yytext);
-}
-
-[Ee] {
-    printf("%c\tline %d cols %d-%d is T_Identifier\n", yytext[0], line_num, char_pos, char_pos);
-    char_pos += 1;
+[0-9]+("."[0-9]*)?([Ee][+-]?[0-9]+) {
+    double value = atof(yytext); // Convert the string to a double value, including scientific notation
+    printf("%s\tline %d cols %d-%d is T_DoubleConstant (value = %g)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
+    char_pos += strlen(yytext); // Update char_pos after handling the token
 }
 
 \"([^"\\]|\\.)*\" {
@@ -74,44 +68,36 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
     // Removing leading and trailing double quotes for presentation in the value field
     char* stringValue = strndup(yytext + 1, strlen(yytext) - 2);
     printf("%s\tline %d cols %d-%d is T_StringConstant (value = \"%s\")\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), stringValue);
-    char_pos += strlen(yytext);
-    free(stringValue);
+    char_pos += strlen(yytext); // Update char_pos after handling the token
+    free(stringValue); // Free the duplicated string
 }
 
-[+\-] { printf("%s\tline %d cols %d-%d is '%s'\n", yytext, line_num, char_pos, char_pos, yytext); char_pos += 1; }
 
-[*/%<>=!&|;,.(){}]+                   {
+[+\-*/%<>=!&|;,.(){}]+                   {
     printf("%s\tline %d cols %d-%d is T_Operator\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1);
     char_pos += strlen(yytext);
 }
 
-
 [\$\@\^\&\~\`\?]+ {
     printf("*** Error line %d.\n", line_num);
     for (int i = 0; yytext[i] != '\0'; i++) {
-        printf("*** Unrecognized char: '%c' at position %d\n", yytext[i], char_pos + i);
+        if (i > 0) printf("\n");
+        printf("*** Unrecognized char: '%c'", yytext[i]);
+        char_pos++;
     }
-    char_pos += strlen(yytext);
+    printf("\n");
 }
 
-"." { printf(".\tline %d cols %d-%d is '.'\n", line_num, char_pos, char_pos); char_pos += 1; }
+. { printf("*** Error line %d.\n*** Unrecognized char: '%c'\n", line_num, yytext[0]); char_pos++; }
+
 
 %%
 
-int main(int argc, char **argv) {
-    if (argc > 1) {
-        FILE *file;
-        file = fopen(argv[1], "r");
-        if (!file) {
-            fprintf(stderr, "Could not open %s\n", argv[1]);
-            return 1;
-        }
-        yyin = file;
-    }
-    yylex();
-    if (argc > 1) {
-        fclose(yyin);
-    }
-    return 0;
+int yywrap(void) {
+    return 1;
 }
 
+int main(void) {
+    yylex();
+    return 0;
+}
