@@ -160,8 +160,6 @@ if __name__ == "__main__":
         print("Compilation successful.")
         if use_parallel_testing:
             num_processes = int(input("Enter the number of parallel processes to use (default: 4): ") or '4')
-    else:
-        print("Compilation failed.")
 
         test_dir = input("Enter the test directory (default: samples): ") or 'samples'
 
@@ -174,3 +172,5 @@ if __name__ == "__main__":
             test_scanner_parallel(test_dir=test_dir, log_file=log_file, num_processes=num_processes)
         else:
             test_scanner(test_dir=test_dir, log_file=log_file)
+    else:
+        print("Compilation failed.")
