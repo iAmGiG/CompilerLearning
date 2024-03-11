@@ -73,7 +73,7 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
     if (strlen(yytext) > MAX_IDENTIFIER_LENGTH) {
         printf("\n*** Error: Identifier too long: %s\n", yytext);
     } else {
-        printf("%s line %d cols %d-%d is T_Identifier\n", yytext, line_num, char_pos, char_pos + strlen(yytext) - 1);
+        printf("\t\t%s line %d cols %d-%d is T_Identifier\n", yytext, line_num, char_pos, char_pos + strlen(yytext) - 1);
     }
     char_pos += strlen(yytext);
 }
