@@ -11,7 +11,53 @@ This project contains a Flex lexer (`scanner.l`), which is compiled into an exec
 
 Make sure you have Flex and GCC installed on your system.
 
-## Building the Project
+## Dependencies
+
+This scanner project relies on Flex for generating the lexical analyzer. If you're using Bison for parsing, that will be a dependency as well. Here are the instructions for installing these dependencies on Ubuntu/Linux:
+
+## Installing Flex
+
+Flex can be easily installed on Ubuntu and other Debian-based systems using the following command:
+
+```bash
+sudo apt-get update
+sudo apt-get install flex
+```
+
+## Installing Bison
+
+If your project uses Bison, install it with:
+
+```bash
+sudo apt-get install bison
+```
+
+## Verifying Installation
+
+After installation, you can verify that Flex and Bison are correctly installed by checking their versions:
+
+```bash
+flex --version
+bison --version
+```
+
+If both commands output version information, you're ready to proceed with building and running the scanner.
+
+### Note on Cross-Platform Compatibility
+
+If users of your scanner might be on different operating systems, consider providing installation instructions for those systems as well. For example, on macOS, Flex and Bison can be installed using Homebrew:
+
+### Installing on macOS
+
+You can use Homebrew to install Flex and Bison on macOS:
+
+```bash
+brew install flex bison
+```
+
+**Note** that macOS comes with an older version of Bison, so you might need to link the newly installed version if required by your project.
+
+### Building the Project
 
 To build the scanner executable, run the `build.sh` script from the terminal:
 
@@ -19,7 +65,11 @@ To build the scanner executable, run the `build.sh` script from the terminal:
 ./build.sh
 ```
 
-This script generates an executable named scanner (or another name if you've customized the script).
+1. A function command_exists to check if a given command is available in the system's PATH.
+2. Checks for the existence of flex (and bison if you uncomment the relevant sections), providing instructions for installation if these are not found.
+3. Proceeds with the compilation process only if all necessary tools are present.
+
+**Note** This script generates an executable named scanner (or another name if you've customized the script).
 
 ### Running the Scanner
 
