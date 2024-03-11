@@ -103,7 +103,7 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
     printf("\n");
 }
 
-"^#.*" {
+"#.*" {
     printf("\n*** Error line %d.\n*** Invalid # directive\n", line_num);
     char_pos = 1; 
 }
