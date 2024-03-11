@@ -35,6 +35,11 @@ def compile_scanner(scanner_file='scanner.l'):
     Returns:
         bool: True if the compilation was successful, False otherwise.
     '''
+    executable_name = scanner_file.replace('.l', '')  # Assumes the executable name is based on the scanner file name
+    if os.path.exists(executable_name):
+        print(f"Removing old executable: {executable_name}")
+        os.remove(executable_name)  # Remove the existing executable
+
     print("Generating C source from Flex file...")
     _, flex_err, exit_code = run_command(f"flex {scanner_file}")
     if exit_code != 0:
@@ -42,7 +47,7 @@ def compile_scanner(scanner_file='scanner.l'):
         return False
 
     print("Compiling generated C source...")
-    _, gcc_err, exit_code = run_command("gcc lex.yy.c -lfl -o scanner")
+    _, gcc_err, exit_code = run_command(f"gcc lex.yy.c -lfl -o {executable_name}")
     if exit_code != 0:
         print(f"Error compiling lex.yy.c: {gcc_err}")
         return False
@@ -152,8 +157,11 @@ if __name__ == "__main__":
     scanner_file = input("Enter the scanner file name (default: scanner.l): ") or 'scanner.l'
     if compile_scanner(scanner_file):
         use_parallel_testing = input("Do you want to run tests in parallel? (y/n): ").lower() == 'y'
+        print("Compilation successful.")
         if use_parallel_testing:
             num_processes = int(input("Enter the number of parallel processes to use (default: 4): ") or '4')
+    else:
+        print("Compilation failed.")
 
         test_dir = input("Enter the test directory (default: samples): ") or 'samples'
 
