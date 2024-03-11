@@ -1,8 +1,11 @@
+%option noyywrap
+
 %{
 #include <stdio.h>
 #include <stdlib.h>
 int line_num = 1;
 int char_pos = 1; // Initialize at 1 for the start of a new line
+#define MAX_IDENTIFIER_LENGTH 31
 %}
 
 %x COMMENT
@@ -11,24 +14,6 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 
 \n  { ++line_num; char_pos = 1; }
 [ \t]+ { char_pos += strlen(yytext); } // Adjust position for whitespace
-
-
-"^#.*" {
-    printf("\n*** Error line %d.\n*** Invalid # directive\n", line_num);
-    char_pos = 1; 
-}
-
-"/*" {
-    BEGIN(COMMENT);
-}
-
-<COMMENT>"*/" {
-    BEGIN(INITIAL);
-}
-
-<COMMENT>.|\n {
-    // Ignored within comments
-}
 
 
 "void"                                  { printf("void\t\t line %d cols %d-%d is T_Void\n", line_num, char_pos + 1, char_pos + 4); }
@@ -65,8 +50,12 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 "&"                                     { printf("\n*** Error line %d.\n*** Unrecognized char: '%c'\n", line_num, '&'); char_pos++;}
 "."                                     { printf(".\tline %d cols %d-%d is '.'\n", line_num, char_pos, char_pos); char_pos += 1; }
 
-([a-zA-Z][a-zA-Z0-9_]{0,30})             {
-    printf("%s\tline %d cols %d-%d is T_Identifier\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1);
+[a-zA-Z][a-zA-Z0-9_]{0,30} {
+    if (strlen(yytext) > 31) {
+        printf("\n*** Error: Identifier too long: %s\n", yytext);
+    } else {
+        printf("%s line %d cols %d-%d is T_Identifier\n", yytext, line_num, char_pos, char_pos + strlen(yytext) - 1);
+    }
     char_pos += strlen(yytext);
 }
 
@@ -112,6 +101,36 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
         char_pos++;
     }
     printf("\n");
+}
+
+"^#.*" {
+    printf("\n*** Error line %d.\n*** Invalid # directive\n", line_num);
+    char_pos = 1; 
+}
+
+"#"[^\n]*\n {
+    printf("\n*** Error line %d.\n*** Invalid # directive\n", line_num);
+    char_pos = 1;
+    line_num++;
+}
+
+"/*" { BEGIN(COMMENT); }
+
+<COMMENT>"/*" {
+    printf("\n*** Error line %d.\n*** Nested comments are not allowed\n", line_num);
+}
+
+<COMMENT>"*/" {
+    BEGIN(INITIAL);
+}
+
+<COMMENT>\n {
+    line_num++;
+    char_pos = 1;
+}
+
+<COMMENT>. {
+    char_pos++;
 }
 
 . { printf("\n*** Error line %d.\n*** Unrecognized char: '%c'\n", line_num, yytext[0]); char_pos++; }
