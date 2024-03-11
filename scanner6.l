@@ -80,7 +80,7 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
     char_pos += strlen(yytext);
 }
 
-[\$\@\^\&\~\`\?]+ | "&"{
+[\$\@\^\&\~\`\?]+ | "&" {
     printf("*** Error line %d.\n", line_num);
     for (int i = 0; yytext[i] != '\0'; i++) {
         if (i > 0) printf("\n");
