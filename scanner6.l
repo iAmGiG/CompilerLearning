@@ -81,10 +81,10 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 }
 
 [\$\@\^\&\~\`\?]+ {
-    printf("*** Error line %d.\n", line_num);
+    printf("\n*** Error line %d.\n", line_num);
     for (int i = 0; yytext[i] != '\0'; i++) {
         if (i > 0) printf("\n");
-        printf("*** Unrecognized char: '%c'", yytext[i]);
+        printf("*** Unrecognized char: '%c'\n", yytext[i]);
         char_pos++;
     }
     printf("\n");
