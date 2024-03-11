@@ -116,10 +116,6 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 
 "/*" { BEGIN(COMMENT); }
 
-<COMMENT>"/*" {
-    printf("\n*** Error line %d.\n*** Nested comments are not allowed\n", line_num);
-}
-
 <COMMENT>"*/" {
     BEGIN(INITIAL);
 }
