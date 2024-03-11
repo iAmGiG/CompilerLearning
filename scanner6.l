@@ -16,6 +16,23 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 [ \t]+ { char_pos += strlen(yytext); } // Adjust position for whitespace
 
 
+"^#.*" {
+    printf("\n*** Error line %d.\n*** Invalid # directive\n", line_num);
+    char_pos = 1; 
+}
+
+"/*" {
+    BEGIN(COMMENT);
+}
+
+<COMMENT>"*/" {
+    BEGIN(INITIAL);
+}
+
+<COMMENT>.|\n {
+    // Ignored within comments
+}
+
 "void"                                  { printf("void\t\t line %d cols %d-%d is T_Void\n", line_num, char_pos + 1, char_pos + 4); }
 "int"                                   { printf("int\t\t line %d cols %d-%d is T_Int\n", line_num, char_pos + 1, char_pos + 3); }
 "double"                                { printf("double\t line %d cols %d-%d is T_Double\n", line_num, char_pos + 1, char_pos + 6); }
@@ -101,32 +118,6 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
         char_pos++;
     }
     printf("\n");
-}
-
-"#.*" {
-    printf("\n*** Error line %d.\n*** Invalid # directive\n", line_num);
-    char_pos = 1; 
-}
-
-"#"[^\n]*\n {
-    printf("\n*** Error line %d.\n*** Invalid # directive\n", line_num);
-    char_pos = 1;
-    line_num++;
-}
-
-"/*" { BEGIN(COMMENT); }
-
-<COMMENT>"*/" {
-    BEGIN(INITIAL);
-}
-
-<COMMENT>\n {
-    line_num++;
-    char_pos = 1;
-}
-
-<COMMENT>. {
-    char_pos++;
 }
 
 . { printf("\n*** Error line %d.\n*** Unrecognized char: '%c'\n", line_num, yytext[0]); char_pos++; }
