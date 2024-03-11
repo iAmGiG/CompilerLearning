@@ -92,6 +92,16 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
     printf("\n");
 }
 
+"^#.*" {
+    printf("*** Error line %d.\n*** Invalid # directive\n", line_num);
+    char_pos = 1; 
+}
+
+"/*"(.|\n)*"*/" {
+    // Do nothing, or simply acknowledge the comment without breaking it down.
+}
+
+
 . { printf("*** Error line %d.\n*** Unrecognized char: '%c'\n", line_num, yytext[0]); char_pos++; }
 
 
