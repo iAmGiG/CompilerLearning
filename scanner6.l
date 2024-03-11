@@ -5,6 +5,8 @@ int line_num = 1;
 int char_pos = 1; // Initialize at 1 for the start of a new line
 %}
 
+%x COMMENT
+
 %%
 
 \n  { ++line_num; char_pos = 1; }
