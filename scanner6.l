@@ -109,7 +109,7 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
         // Handle the part before 'E' or 'e' as integer
         char temp[256] = {0};
         strncpy(temp, ptr, e_ptr - ptr);
-        printf("%s\t\t line %d cols %d-%d is T_IntConstant (value = %s)\n", temp, line_num, char_pos, char_pos + (e_ptr - ptr) - 1, temp);
+        printf("%s\t\t line %d cols %d-%d is T_IntConstant (value = %s)\n", temp, line_num, char_pos, (int)(char_pos + (e_ptr - ptr) - 1), temp);
         char_pos += (e_ptr - ptr);
 
         // Handle 'E' or 'e' as an identifier
@@ -125,18 +125,18 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
         }
 
         // The rest should be an integer
-        printf("%s\t\t line %d cols %d-%d is T_IntConstant (value = %s)\n", ptr, line_num, char_pos, char_pos + strlen(ptr) - 1, ptr);
+        printf("%s\t\t line %d cols %d-%d is T_IntConstant (value = %s)\n", ptr, line_num, char_pos, (int)(char_pos + strlen(ptr) - 1), ptr);
         char_pos += strlen(ptr);
     } else {
         // Handle as a double constant or a simple integer
         if (strchr(yytext, '.') != NULL || e_ptr != NULL) {
             // It's a double
             double value = atof(yytext);
-            printf("%s\t\t line %d cols %d-%d is T_DoubleConstant (value = %g)\n", yytext, line_num, char_pos, char_pos + strlen(yytext) - 1, value);
+            printf("%s\t\t line %d cols %d-%d is T_DoubleConstant (value = %g)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
             char_pos += strlen(yytext);
         } else {
             // It's a simple integer
-            printf("%s\t\t line %d cols %d-%d is T_IntConstant (value = %s)\n", yytext, line_num, char_pos, char_pos + strlen(yytext) - 1, yytext);
+            printf("%s\t\t line %d cols %d-%d is T_IntConstant (value = %s)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), yytext);
             char_pos += strlen(yytext);
         }
     }
