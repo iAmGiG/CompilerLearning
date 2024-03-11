@@ -36,15 +36,15 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 
 "void"                                  { printf("void\t\t line %d cols %d-%d is T_Void\n", line_num, char_pos + 1, char_pos + 4); }
 "int"                                   { printf("int\t\t line %d cols %d-%d is T_Int\n", line_num, char_pos + 1, char_pos + 3); }
-"double"                                { printf("double\t line %d cols %d-%d is T_Double\n", line_num, char_pos + 1, char_pos + 6); }
-"string"                                { printf("string\t line %d cols %d-%d is T_String\n", line_num, char_pos + 1, char_pos + 6); }
-"while"                                 { printf("while\t line %d cols %d-%d is T_While\n", line_num, char_pos + 1, char_pos + 5); }
+"double"                                { printf("double\t\t line %d cols %d-%d is T_Double\n", line_num, char_pos + 1, char_pos + 6); }
+"string"                                { printf("string\t\t line %d cols %d-%d is T_String\n", line_num, char_pos + 1, char_pos + 6); }
+"while"                                 { printf("while\t\t line %d cols %d-%d is T_While\n", line_num, char_pos + 1, char_pos + 5); }
 "if"                                    { printf("if\t\t line %d cols %d-%d is T_If\n", line_num, char_pos + 1, char_pos + 2); }
 "else"                                  { printf("else\t\t line %d cols %d-%d is T_Else\n", line_num, char_pos + 1, char_pos + 4); }
-"return"                                { printf("return\t line %d cols %d-%d is T_Return\n", line_num, char_pos + 1, char_pos + 6); }
-"break"                                 { printf("break\t line %d cols %d-%d is T_Break\n", line_num, char_pos + 1, char_pos + 5); }
-"true"                                  { printf("true\t\tline %d cols %d-%d is T_BoolConstant (value = true)\n", line_num, char_pos + 1, char_pos + 4); char_pos += 4; }
-"false"                                 { printf("false\t\tline %d cols %d-%d is T_BoolConstant (value = false)\n", line_num, char_pos + 1, char_pos + 5); char_pos += 5; }
+"return"                                { printf("return\t\t line %d cols %d-%d is T_Return\n", line_num, char_pos + 1, char_pos + 6); }
+"break"                                 { printf("break\t\t line %d cols %d-%d is T_Break\n", line_num, char_pos + 1, char_pos + 5); }
+"true"                                  { printf("true\t\t line %d cols %d-%d is T_BoolConstant (value = true)\n", line_num, char_pos + 1, char_pos + 4); char_pos += 4; }
+"false"                                 { printf("false\t\t line %d cols %d-%d is T_BoolConstant (value = false)\n", line_num, char_pos + 1, char_pos + 5); char_pos += 5; }
 
 "+"                                     { printf("+\t\t line %d cols %d-%d is '+'\n", line_num, char_pos + 1, char_pos + 1); }
 "-"                                     { printf("-\t\t line %d cols %d-%d is '-'\n", line_num, char_pos + 1, char_pos + 1); }
@@ -54,8 +54,8 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 ">"                                     { printf(">\t\t line %d cols %d-%d is '>'\n", line_num, char_pos + 1, char_pos + 1); }
 ";"                                     { printf(";\t\t line %d cols %d-%d is ';'\n", line_num, char_pos + 1, char_pos + 1); }
 ","                                     { printf(",\t\t line %d cols %d-%d is ','\n", line_num, char_pos + 1, char_pos + 1); }
-"="                                     { printf("=\tline %d cols %d-%d is '='\n", line_num, char_pos, char_pos); ++char_pos; }
-"!"                                     { printf("!\tline %d cols %d-%d is '!'\n", line_num, char_pos, char_pos); ++char_pos; }
+"="                                     { printf("=\t\t line %d cols %d-%d is '='\n", line_num, char_pos, char_pos); ++char_pos; }
+"!"                                     { printf("!\t\t line %d cols %d-%d is '!'\n", line_num, char_pos, char_pos); ++char_pos; }
 "{"                                     { printf("{\t\t line %d cols %d-%d is '{'\n", line_num, char_pos + 1, char_pos + 1); }
 "}"                                     { printf("}\t\t line %d cols %d-%d is '}'\n", line_num, char_pos + 1, char_pos + 1); }
 "("                                     { printf("(\t\t line %d cols %d-%d is '('\n", line_num, char_pos + 1, char_pos + 1); }
@@ -64,9 +64,9 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 "<="                                    { printf("<=\t\t line %d cols %d-%d is T_LessEqual\n", line_num, char_pos + 1, char_pos + 2); }
 ">="                                    { printf(">=\t\t line %d cols %d-%d is T_GreaterEqual\n", line_num, char_pos + 1, char_pos + 2); }
 "=="                                    { printf("==\t\t line %d cols %d-%d is T_Equal\n", line_num, char_pos + 1, char_pos + 2); }
-"&&"                                    { printf("&&\tline %d cols %d-%d is T_Operator\n", line_num, char_pos, char_pos + 1);  char_pos += 2;}
-"&"                                     { printf("\n*** Error line %d.\n*** Unrecognized char: '%c'\n", line_num, '&'); char_pos++;}
-"."                                     { printf(".\tline %d cols %d-%d is '.'\n", line_num, char_pos, char_pos); char_pos += 1; }
+"&&"                                    { printf("&&\t\t line %d cols %d-%d is T_Operator\n", line_num, char_pos, char_pos + 1);  char_pos += 2;}
+"&"                                     { printf("\n*** Error line %d.\n*** Unrecognized char: '%c'\n\n", line_num, '&'); char_pos++;}
+"."                                     { printf(".\t\t line %d cols %d-%d is '.'\n", line_num, char_pos, char_pos); char_pos += 1; }
 
 [a-zA-Z][a-zA-Z0-9_]{0,30} {
     if (strlen(yytext) > MAX_IDENTIFIER_LENGTH) {
@@ -77,16 +77,15 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
     char_pos += strlen(yytext);
 }
 
-
 [0-9]+ {
     int value = atoi(yytext); // Convert the string to an integer, removing leading zeroes
-    printf("%s\t\tline %d cols %d-%d is T_IntConstant (value = %d)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
+    printf("%s\t\t line %d cols %d-%d is T_IntConstant (value = %d)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
     char_pos += strlen(yytext); // Update char_pos after handling the token
 }
 
 [0-9]+(\.[0-9]*)?([Ee][+\-]?[0-9]+)? {
     double value = atof(yytext);
-    printf("%s\t\tline %d cols %d-%d is T_DoubleConstant (value = %g)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
+    printf("%s\t\t line %d cols %d-%d is T_DoubleConstant (value = %g)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
     char_pos += strlen(yytext); 
 }
 
@@ -94,7 +93,7 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
     // yytext contains the matched text, including the surrounding double quotes
     // Removing leading and trailing double quotes for presentation in the value field
     char* stringValue = strndup(yytext + 1, strlen(yytext) - 2);
-    printf("%s\tline %d cols %d-%d is T_StringConstant (value = \"%s\")\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), stringValue);
+    printf("%s\t\t line %d cols %d-%d is T_StringConstant (value = \"%s\")\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), stringValue);
     char_pos += strlen(yytext); // Update char_pos after handling the token
     free(stringValue); // Free the duplicated string
 }
@@ -102,7 +101,7 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 
 [+\-*/%<>\|;,.(){}]+ {
     for(int i = 0; yytext[i] != '\0'; ++i) {
-        printf("%c\tline %d cols %d-%d is T_Operator\n", yytext[i], line_num, char_pos, char_pos);
+        printf("%c\t\t line %d cols %d-%d is T_Operator\n", yytext[i], line_num, char_pos, char_pos);
         ++char_pos;
     }
 }
@@ -117,7 +116,7 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
     printf("\n");
 }
 
-. { printf("\n*** Error line %d.\n*** Unrecognized char: '%c'\n", line_num, yytext[0]); char_pos++; }
+. { printf("\n*** Error line %d.\n*** Unrecognized char: '%c'\n\n", line_num, yytext[0]); char_pos++; }
 
 %%
 
