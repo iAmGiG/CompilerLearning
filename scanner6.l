@@ -68,10 +68,10 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 "."                                     { printf(".\tline %d cols %d-%d is '.'\n", line_num, char_pos, char_pos); char_pos += 1; }
 
 [a-zA-Z][a-zA-Z0-9_]{0,30} {
-    if (strlen(yytext) > 31) {
+    if (strlen(yytext) > MAX_IDENTIFIER_LENGTH) {
         printf("\n*** Error: Identifier too long: %s\n", yytext);
     } else {
-        printf("%s line %d cols %d-%d is T_Identifier\n", yytext, line_num, char_pos, char_pos + strlen(yytext) - 1);
+        printf("%s line %d cols %d-%d is T_Identifier\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1);
     }
     char_pos += strlen(yytext);
 }
