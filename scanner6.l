@@ -14,7 +14,7 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 
 
 "^#.*" {
-    printf("*** Error line %d.\n*** Invalid # directive\n", line_num);
+    printf("\n*** Error line %d.\n*** Invalid # directive\n", line_num);
     char_pos = 1; 
 }
 
@@ -61,7 +61,8 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 "<="                                    { printf("<=\t\t line %d cols %d-%d is T_LessEqual\n", line_num, char_pos + 1, char_pos + 2); }
 ">="                                    { printf(">=\t\t line %d cols %d-%d is T_GreaterEqual\n", line_num, char_pos + 1, char_pos + 2); }
 "=="                                    { printf("==\t\t line %d cols %d-%d is T_Equal\n", line_num, char_pos + 1, char_pos + 2); }
-"&&"                                    {printf("&&\tline %d cols %d-%d is T_Operator\n", line_num, char_pos, char_pos + 1);  char_pos += 2;}
+"&&"                                    { printf("&&\tline %d cols %d-%d is T_Operator\n", line_num, char_pos, char_pos + 1);  char_pos += 2;}
+"&"                                     { printf("*** Error line %d.\n*** Unrecognized char: '%c'\n", line_num, '&'); char_pos++;}
 "."                                     { printf(".\tline %d cols %d-%d is '.'\n", line_num, char_pos, char_pos); char_pos += 1; }
 
 ([a-zA-Z][a-zA-Z0-9_]{0,30})             {
@@ -96,15 +97,15 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 }
 
 
-[+\-*/%<>&|;,.(){}]+ {
+[+\-*/%<>\|;,.(){}]+ {
     for(int i = 0; yytext[i] != '\0'; ++i) {
         printf("%c\tline %d cols %d-%d is T_Operator\n", yytext[i], line_num, char_pos, char_pos);
         ++char_pos;
     }
 }
 
-[\$\@\^\&\~\`\?]+ {
-    printf("\n*** Error line %d.\n", line_num);
+[\$\@\^\~\`\?]+ {
+    printf("*** Error line %d.\n", line_num);
     for (int i = 0; yytext[i] != '\0'; i++) {
         if (i > 0) printf("\n");
         printf("*** Unrecognized char: '%c'\n", yytext[i]);
