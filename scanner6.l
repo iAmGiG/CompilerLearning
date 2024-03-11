@@ -52,18 +52,17 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
     char_pos += strlen(yytext);
 }
 
-[0-9]+(\.[0-9]*)?([Ee][+\-]?[0-9]+)? {
-    double value = atof(yytext);
-    printf("%s\tline %d cols %d-%d is T_DoubleConstant (value = %g)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
-    char_pos += strlen(yytext); 
-}
-
 [0-9]+ {
     int value = atoi(yytext); // Convert the string to an integer, removing leading zeroes
     printf("%s\tline %d cols %d-%d is T_IntConstant (value = %d)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
     char_pos += strlen(yytext); // Update char_pos after handling the token
 }
 
+[0-9]+(\.[0-9]*)?([Ee][+\-]?[0-9]+)? {
+    double value = atof(yytext);
+    printf("%s\tline %d cols %d-%d is T_DoubleConstant (value = %g)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
+    char_pos += strlen(yytext); 
+}
 
 \"([^"\\]|\\.)*\" {
     // yytext contains the matched text, including the surrounding double quotes
@@ -88,11 +87,6 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
         char_pos++;
     }
     printf("\n");
-}
-
-[Ee] {
-    printf("%c\tline %d cols %d-%d is T_Identifier\n", yytext[0], line_num, char_pos, char_pos);
-    char_pos += 1;
 }
 
 . { printf("*** Error line %d.\n*** Unrecognized char: '%c'\n", line_num, yytext[0]); char_pos++; }
