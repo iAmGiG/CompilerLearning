@@ -25,13 +25,14 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
     BEGIN(COMMENT);
 }
 
+<COMMENT>.|\n {
+    // Ignored within comments
+}
+
 <COMMENT>"*/" {
     BEGIN(INITIAL);
 }
 
-<COMMENT>.|\n {
-    // Ignored within comments
-}
 
 "void"                                  { printf("void\t\t line %d cols %d-%d is T_Void\n", line_num, char_pos + 1, char_pos + 4); }
 "int"                                   { printf("int\t\t line %d cols %d-%d is T_Int\n", line_num, char_pos + 1, char_pos + 3); }
@@ -71,25 +72,21 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
     if (strlen(yytext) > MAX_IDENTIFIER_LENGTH) {
         printf("\n*** Error: Identifier too long: %s\n", yytext);
     } else {
-        printf("%s line %d cols %d-%d is T_Identifier\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1);
+        printf("%-12s line %d cols %d-%d is T_Identifier\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1);
     }
     char_pos += strlen(yytext);
 }
 
-(0[Xx][0-9A-Fa-f]+)                      {
-    printf("%s\tline %d cols %d-%d is T_HexInteger\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1);
-    char_pos += strlen(yytext);
-}
 
 [0-9]+ {
     int value = atoi(yytext); // Convert the string to an integer, removing leading zeroes
-    printf("%s\tline %d cols %d-%d is T_IntConstant (value = %d)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
+    printf("%s\t\tline %d cols %d-%d is T_IntConstant (value = %d)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
     char_pos += strlen(yytext); // Update char_pos after handling the token
 }
 
 [0-9]+(\.[0-9]*)?([Ee][+\-]?[0-9]+)? {
     double value = atof(yytext);
-    printf("%s\tline %d cols %d-%d is T_DoubleConstant (value = %g)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
+    printf("%s\t\tline %d cols %d-%d is T_DoubleConstant (value = %g)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
     char_pos += strlen(yytext); 
 }
 
@@ -141,3 +138,8 @@ int main(int argc, char **argv) {
     return 0;
 }
 
+// removing this rule, but not sure if anything will break yet.
+// (0[Xx][0-9A-Fa-f]+)                      {
+//     printf("%s\t\tline %d cols %d-%d is T_HexInteger\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1);
+//     char_pos += strlen(yytext);
+// }
