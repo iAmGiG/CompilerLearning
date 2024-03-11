@@ -157,7 +157,7 @@ if __name__ == "__main__":
 
         test_dir = input("Enter the test directory (default: samples): ") or 'samples'
 
-        print("Starting parallel testing of scanner on .frag files in {test_dir}...")
+        print(f"Parrallel testing status: {use_parallel_testing}.\nStarting testing of scanner on .frag files in {test_dir}... ")
         # Generate a new log file with a timestamp
         now = datetime.datetime.now()
         log_file = f"scanner_test_log_{now.strftime('%m%d_%H%M')}.txt"
