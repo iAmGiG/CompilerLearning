@@ -16,7 +16,7 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 [ \t]+ { char_pos += strlen(yytext); } // Adjust position for whitespace
 
 
-"^#.*" {
+"#.*" {
     printf("\n*** Error line %d.\n*** Invalid # directive\n", line_num);
     char_pos = 1; 
 }
@@ -42,15 +42,9 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 "else"                                  { printf("else\t\t line %d cols %d-%d is T_Else\n", line_num, char_pos + 1, char_pos + 4); }
 "return"                                { printf("return\t line %d cols %d-%d is T_Return\n", line_num, char_pos + 1, char_pos + 6); }
 "break"                                 { printf("break\t line %d cols %d-%d is T_Break\n", line_num, char_pos + 1, char_pos + 5); }
-"true" {
-    printf("true\t\tline %d cols %d-%d is T_BoolConstant (value = true)\n", line_num, char_pos + 1, char_pos + 4);
-    char_pos += 4;
-}
+"true"                                  { printf("true\t\tline %d cols %d-%d is T_BoolConstant (value = true)\n", line_num, char_pos + 1, char_pos + 4); char_pos += 4; }
+"false"                                 { printf("false\t\tline %d cols %d-%d is T_BoolConstant (value = false)\n", line_num, char_pos + 1, char_pos + 5); char_pos += 5; }
 
-"false" {
-    printf("false\t\tline %d cols %d-%d is T_BoolConstant (value = false)\n", line_num, char_pos + 1, char_pos + 5);
-    char_pos += 5;
-}
 "+"                                     { printf("+\t\t line %d cols %d-%d is '+'\n", line_num, char_pos + 1, char_pos + 1); }
 "-"                                     { printf("-\t\t line %d cols %d-%d is '-'\n", line_num, char_pos + 1, char_pos + 1); }
 "*"                                     { printf("*\t\t line %d cols %d-%d is '*'\n", line_num, char_pos + 1, char_pos + 1); }
