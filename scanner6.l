@@ -6,6 +6,7 @@
 int line_num = 1;
 int char_pos = 1; // Initialize at 1 for the start of a new line
 #define MAX_IDENTIFIER_LENGTH 31
+#define MAX_STRING_LENGTH 1024
 %}
 
 %x COMMENT
@@ -43,8 +44,8 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 "else"                                  { printf("else\t\t line %d cols %d-%d is T_Else\n", line_num, char_pos + 1, char_pos + 4); }
 "return"                                { printf("return\t\t line %d cols %d-%d is T_Return\n", line_num, char_pos + 1, char_pos + 6); }
 "break"                                 { printf("break\t\t line %d cols %d-%d is T_Break\n", line_num, char_pos + 1, char_pos + 5); }
-"true"                                  { printf("true\t\t line %d cols %d-%d is T_BoolConstant (value = true)\n", line_num, char_pos + 1, char_pos + 4); char_pos += 4; }
-"false"                                 { printf("false\t\t line %d cols %d-%d is T_BoolConstant (value = false)\n", line_num, char_pos + 1, char_pos + 5); char_pos += 5; }
+"true"                                  { printf("%-12s line %d cols %d-%d is T_BoolConstant (value = true)\n", "true", line_num, char_pos, char_pos + strlen(yytext) - 1); char_pos += strlen(yytext); }
+"false"                                 { printf("%-12s line %d cols %d-%d is T_BoolConstant (value = false)\n", "false", line_num, char_pos, char_pos + strlen(yytext) - 1); char_pos += strlen(yytext); }
 
 "+"                                     { printf("+\t\t line %d cols %d-%d is '+'\n", line_num, char_pos + 1, char_pos + 1); }
 "-"                                     { printf("-\t\t line %d cols %d-%d is '-'\n", line_num, char_pos + 1, char_pos + 1); }
@@ -72,7 +73,7 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
     if (strlen(yytext) > MAX_IDENTIFIER_LENGTH) {
         printf("\n*** Error: Identifier too long: %s\n", yytext);
     } else {
-        printf("%-12s line %d cols %d-%d is T_Identifier\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1);
+        printf("%s line %d cols %d-%d is T_Identifier\n", yytext, line_num, char_pos, char_pos + strlen(yytext) - 1);
     }
     char_pos += strlen(yytext);
 }
@@ -89,15 +90,25 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
     char_pos += strlen(yytext); 
 }
 
-\"([^"\\]|\\.)*\" {
-    // yytext contains the matched text, including the surrounding double quotes
-    // Removing leading and trailing double quotes for presentation in the value field
-    char* stringValue = strndup(yytext + 1, strlen(yytext) - 2);
+\"(\\.|[^"\\])*\" {
+    char stringValue[MAX_STRING_LENGTH];
+    int i, j;
+    for (i = 1, j = 0; yytext[i] != '"'; i++) {
+        if (yytext[i] == '\\') {
+            switch (yytext[++i]) {
+                case 'n': stringValue[j++] = '\n'; break;
+                case 't': stringValue[j++] = '\t'; break;
+                // Handle other escape sequences as needed
+                default: stringValue[j++] = yytext[i];
+            }
+        } else {
+            stringValue[j++] = yytext[i];
+        }
+    }
+    stringValue[j] = '\0';
     printf("%s\t\t line %d cols %d-%d is T_StringConstant (value = \"%s\")\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), stringValue);
-    char_pos += strlen(yytext); // Update char_pos after handling the token
-    free(stringValue); // Free the duplicated string
+    char_pos += strlen(yytext);
 }
-
 
 [+\-*/%<>\|;,.(){}]+ {
     for(int i = 0; yytext[i] != '\0'; ++i) {
