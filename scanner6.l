@@ -28,7 +28,7 @@ char output_filename[OUTPUT_FILENAME_SIZE];
 [ \t]+ { char_pos += strlen(yytext); }
 
 "#.*" {
-    printf("\n*** Error line %d.\n*** Invalid # directive\n", line_num);
+    fprintf(output_file,"\n*** Error line %d.\n*** Invalid # directive\n", line_num);
     char_pos = 1; 
 }
 
@@ -45,63 +45,63 @@ char output_filename[OUTPUT_FILENAME_SIZE];
 }
 
 
-"void"                                  { fprintf("void\t\t line %d cols %d-%d is T_Void\n", line_num, char_pos + 1, char_pos + 4); }
-"int"                                   { printf("int\t\t line %d cols %d-%d is T_Int\n", line_num, char_pos + 1, char_pos + 3); }
-"double"                                { printf("double\t\t line %d cols %d-%d is T_Double\n", line_num, char_pos + 1, char_pos + 6); }
-"string"                                { printf("string\t\t line %d cols %d-%d is T_String\n", line_num, char_pos + 1, char_pos + 6); }
-"while"                                 { printf("while\t\t line %d cols %d-%d is T_While\n", line_num, char_pos + 1, char_pos + 5); }
-"if"                                    { printf("if\t\t line %d cols %d-%d is T_If\n", line_num, char_pos + 1, char_pos + 2); }
-"else"                                  { printf("else\t\t line %d cols %d-%d is T_Else\n", line_num, char_pos + 1, char_pos + 4); }
-"return"                                { printf("return\t\t line %d cols %d-%d is T_Return\n", line_num, char_pos + 1, char_pos + 6); }
-"break"                                 { printf("break\t\t line %d cols %d-%d is T_Break\n", line_num, char_pos + 1, char_pos + 5); }
-"true"                                  { printf("%-12s line %d cols %d-%d is T_BoolConstant (value = true)\n", "true", line_num, char_pos, (int)(char_pos + strlen(yytext) - 1)); char_pos += strlen(yytext); }
-"false"                                 { printf("%-12s line %d cols %d-%d is T_BoolConstant (value = false)\n", "false", line_num, char_pos, (int)(char_pos + strlen(yytext) - 1)); char_pos += strlen(yytext); }
+"void"                                  { fprintf(output_file,"void\t\t line %d cols %d-%d is T_Void\n", line_num, char_pos + 1, char_pos + 4); }
+"int"                                   { fprintf(output_file,"int\t\t line %d cols %d-%d is T_Int\n", line_num, char_pos + 1, char_pos + 3); }
+"double"                                { fprintf(output_file,"double\t\t line %d cols %d-%d is T_Double\n", line_num, char_pos + 1, char_pos + 6); }
+"string"                                { fprintf(output_file,"string\t\t line %d cols %d-%d is T_String\n", line_num, char_pos + 1, char_pos + 6); }
+"while"                                 { fprintf(output_file,"while\t\t line %d cols %d-%d is T_While\n", line_num, char_pos + 1, char_pos + 5); }
+"if"                                    { fprintf(output_file,"if\t\t line %d cols %d-%d is T_If\n", line_num, char_pos + 1, char_pos + 2); }
+"else"                                  { fprintf(output_file,"else\t\t line %d cols %d-%d is T_Else\n", line_num, char_pos + 1, char_pos + 4); }
+"return"                                { fprintf(output_file,"return\t\t line %d cols %d-%d is T_Return\n", line_num, char_pos + 1, char_pos + 6); }
+"break"                                 { fprintf(output_file,"break\t\t line %d cols %d-%d is T_Break\n", line_num, char_pos + 1, char_pos + 5); }
+"true"                                  { fprintf(output_file,"%-12s line %d cols %d-%d is T_BoolConstant (value = true)\n", "true", line_num, char_pos, (int)(char_pos + strlen(yytext) - 1)); char_pos += strlen(yytext); }
+"false"                                 { fprintf(output_file,"%-12s line %d cols %d-%d is T_BoolConstant (value = false)\n", "false", line_num, char_pos, (int)(char_pos + strlen(yytext) - 1)); char_pos += strlen(yytext); }
 
-"+"                                     { printf("+\t\t line %d cols %d-%d is '+'\n", line_num, char_pos + 1, char_pos + 1); }
-"-"                                     { printf("-\t\t line %d cols %d-%d is '-'\n", line_num, char_pos + 1, char_pos + 1); }
-"*"                                     { printf("*\t\t line %d cols %d-%d is '*'\n", line_num, char_pos + 1, char_pos + 1); }
-"/"                                     { printf("/\t\t line %d cols %d-%d is '/'\n", line_num, char_pos + 1, char_pos + 1); }
-"<"                                     { printf("<\t\t line %d cols %d-%d is '<'\n", line_num, char_pos + 1, char_pos + 1); }
-">"                                     { printf(">\t\t line %d cols %d-%d is '>'\n", line_num, char_pos + 1, char_pos + 1); }
-";"                                     { printf(";\t\t line %d cols %d-%d is ';'\n", line_num, char_pos + 1, char_pos + 1); }
-","                                     { printf(",\t\t line %d cols %d-%d is ','\n", line_num, char_pos + 1, char_pos + 1); }
-"="                                     { printf("=\t\t line %d cols %d-%d is '='\n", line_num, char_pos, char_pos); ++char_pos; }
-"!"                                     { printf("!\t\t line %d cols %d-%d is '!'\n", line_num, char_pos, char_pos); ++char_pos; }
-"{"                                     { printf("{\t\t line %d cols %d-%d is '{'\n", line_num, char_pos + 1, char_pos + 1); }
-"}"                                     { printf("}\t\t line %d cols %d-%d is '}'\n", line_num, char_pos + 1, char_pos + 1); }
-"("                                     { printf("(\t\t line %d cols %d-%d is '('\n", line_num, char_pos + 1, char_pos + 1); }
-")"                                     { printf(")\t\t line %d cols %d-%d is ')'\n", line_num, char_pos + 1, char_pos + 1); }
-"||"                                    { printf("||\t\t line %d cols %d-%d is T_Or\n", line_num, char_pos + 1, char_pos + 2); }
-"<="                                    { printf("<=\t\t line %d cols %d-%d is T_LessEqual\n", line_num, char_pos + 1, char_pos + 2); }
-">="                                    { printf(">=\t\t line %d cols %d-%d is T_GreaterEqual\n", line_num, char_pos + 1, char_pos + 2); }
-"=="                                    { printf("==\t\t line %d cols %d-%d is T_Equal\n", line_num, char_pos + 1, char_pos + 2); }
-"&&"                                    { printf("&&\t\t line %d cols %d-%d is T_Operator\n", line_num, char_pos, char_pos + 1);  char_pos += 2;}
-"&"                                     { printf("\n*** Error line %d.\n*** Unrecognized char: '%c'\n\n", line_num, '&'); char_pos++;}
-"."                                     { printf(".\t\t line %d cols %d-%d is '.'\n", line_num, char_pos, char_pos); char_pos += 1; }
+"+"                                     { fprintf(output_file,"+\t\t line %d cols %d-%d is '+'\n", line_num, char_pos + 1, char_pos + 1); }
+"-"                                     { fprintf(output_file,"-\t\t line %d cols %d-%d is '-'\n", line_num, char_pos + 1, char_pos + 1); }
+"*"                                     { fprintf(output_file,"*\t\t line %d cols %d-%d is '*'\n", line_num, char_pos + 1, char_pos + 1); }
+"/"                                     { fprintf(output_file,"/\t\t line %d cols %d-%d is '/'\n", line_num, char_pos + 1, char_pos + 1); }
+"<"                                     { fprintf(output_file,"<\t\t line %d cols %d-%d is '<'\n", line_num, char_pos + 1, char_pos + 1); }
+">"                                     { fprintf(output_file,">\t\t line %d cols %d-%d is '>'\n", line_num, char_pos + 1, char_pos + 1); }
+";"                                     { fprintf(output_file,";\t\t line %d cols %d-%d is ';'\n", line_num, char_pos + 1, char_pos + 1); }
+","                                     { fprintf(output_file,",\t\t line %d cols %d-%d is ','\n", line_num, char_pos + 1, char_pos + 1); }
+"="                                     { fprintf(output_file,"=\t\t line %d cols %d-%d is '='\n", line_num, char_pos, char_pos); ++char_pos; }
+"!"                                     { fprintf(output_file,"!\t\t line %d cols %d-%d is '!'\n", line_num, char_pos, char_pos); ++char_pos; }
+"{"                                     { fprintf(output_file,"{\t\t line %d cols %d-%d is '{'\n", line_num, char_pos + 1, char_pos + 1); }
+"}"                                     { fprintf(output_file,"}\t\t line %d cols %d-%d is '}'\n", line_num, char_pos + 1, char_pos + 1); }
+"("                                     { fprintf(output_file,"(\t\t line %d cols %d-%d is '('\n", line_num, char_pos + 1, char_pos + 1); }
+")"                                     { fprintf(output_file,")\t\t line %d cols %d-%d is ')'\n", line_num, char_pos + 1, char_pos + 1); }
+"||"                                    { fprintf(output_file,"||\t\t line %d cols %d-%d is T_Or\n", line_num, char_pos + 1, char_pos + 2); }
+"<="                                    { fprintf(output_file,"<=\t\t line %d cols %d-%d is T_LessEqual\n", line_num, char_pos + 1, char_pos + 2); }
+">="                                    { fprintf(output_file,">=\t\t line %d cols %d-%d is T_GreaterEqual\n", line_num, char_pos + 1, char_pos + 2); }
+"=="                                    { fprintf(output_file,"==\t\t line %d cols %d-%d is T_Equal\n", line_num, char_pos + 1, char_pos + 2); }
+"&&"                                    { fprintf(output_file,"&&\t\t line %d cols %d-%d is T_Operator\n", line_num, char_pos, char_pos + 1);  char_pos += 2;}
+"&"                                     { fprintf(output_file,"\n*** Error line %d.\n*** Unrecognized char: '%c'\n\n", line_num, '&'); char_pos++;}
+"."                                     { fprintf(output_file,".\t\t line %d cols %d-%d is '.'\n", line_num, char_pos, char_pos); char_pos += 1; }
 
 [a-zA-Z][a-zA-Z0-9_]* {
     if (strlen(yytext) > MAX_IDENTIFIER_LENGTH) {
-        printf("*** Error line %d.\n*** Identifier too long: %s\n", line_num, yytext);
+        fprintf(output_file,"*** Error line %d.\n*** Identifier too long: %s\n", line_num, yytext);
         // Truncate the identifier for display purposes
         char temp[MAX_IDENTIFIER_LENGTH + 1];
         strncpy(temp, yytext, MAX_IDENTIFIER_LENGTH);
         temp[MAX_IDENTIFIER_LENGTH] = '\0';
-        printf("%s\t\t line %d cols %d-%d is T_Identifier (truncated to %s)\n", yytext, line_num, char_pos, char_pos + MAX_IDENTIFIER_LENGTH - 1, temp);
+        fprintf(output_file,"%s\t\t line %d cols %d-%d is T_Identifier (truncated to %s)\n", yytext, line_num, char_pos, char_pos + MAX_IDENTIFIER_LENGTH - 1, temp);
     } else {
-        printf("%s\t\t line %d cols %d-%d is T_Identifier\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1));
+        fprintf(output_file,"%s\t\t line %d cols %d-%d is T_Identifier\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1));
     }
     char_pos += strlen(yytext);
 }
 
 [0-9]+ {
     int value = atoi(yytext);
-    printf("%s\t\t line %d cols %d-%d is T_IntConstant (value = %d)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
+    fprintf(output_file,"%s\t\t line %d cols %d-%d is T_IntConstant (value = %d)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
     char_pos += strlen(yytext);
 }
 
 [0-9]+(\.[0-9]*)?([Ee][+\-]?[0-9]+)? {
     double value = atof(yytext);
-    printf("%s\t\t line %d cols %d-%d is T_DoubleConstant (value = %g)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
+    fprintf(output_file,"%s\t\t line %d cols %d-%d is T_DoubleConstant (value = %g)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
     char_pos += strlen(yytext);
 }
 
@@ -121,28 +121,28 @@ char output_filename[OUTPUT_FILENAME_SIZE];
         }
     }
     stringValue[j] = '\0';
-    printf("%s\t\t line %d cols %d-%d is T_StringConstant (value = \"%s\")\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), stringValue);
+    fprintf(output_file,"%s\t\t line %d cols %d-%d is T_StringConstant (value = \"%s\")\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), stringValue);
     char_pos += strlen(yytext);
 }
 
 [+\-*/%<>\|;,.(){}]+ {
     for(int i = 0; yytext[i] != '\0'; ++i) {
-        printf("%c\t\t line %d cols %d-%d is T_Operator\n", yytext[i], line_num, char_pos, char_pos);
+        fprintf(output_file,"%c\t\t line %d cols %d-%d is T_Operator\n", yytext[i], line_num, char_pos, char_pos);
         ++char_pos;
     }
 }
 
 [\$\@\^\~\`\?]+ {
-    printf("\n*** Error line %d.\n", line_num);
+    fprintf(output_file,"\n*** Error line %d.\n", line_num);
     for (int i = 0; yytext[i] != '\0'; i++) {
-        if (i > 0) printf("\n");
-        printf("*** Unrecognized char: '%c'\n", yytext[i]);
+        if (i > 0) fprintf(output_file,"\n");
+        fprintf(output_file,"*** Unrecognized char: '%c'\n", yytext[i]);
         char_pos++;
     }
-    printf("\n");
+    fprintf(output_file,"\n");
 }
 
-. { printf("\n*** Error line %d.\n*** Unrecognized char: '%c'\n\n", line_num, yytext[0]); char_pos++; }
+. { fprintf(output_file,"\n*** Error line %d.\n*** Unrecognized char: '%c'\n\n", line_num, yytext[0]); char_pos++; }
 
 %%
 
