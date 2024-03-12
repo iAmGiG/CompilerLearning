@@ -155,17 +155,23 @@ int main(int argc, char **argv) {
         }
         yyin = input_file;
 
+        // Create the output directory if it doesn't exist
         struct stat st = {0};
         if (stat(OUTPUT_PATH, &st) == -1) {
-            mkdir(OUTPUT_PATH, 0700);
+            if (mkdir(OUTPUT_PATH, 0700) == -1) {
+                fprintf(stderr, "Could not create output directory %s\n", OUTPUT_PATH);
+                fclose(input_file);
+                return 1;
+            }
         }
 
         char *file_name = strrchr(argv[1], '/');
         file_name = file_name ? file_name + 1 : argv[1];
         char file_base[OUTPUT_FILENAME_SIZE];
         strncpy(file_base, file_name, sizeof(file_base) - 1);
-        file_base[sizeof(file_base) - 1] = '\0';
+        file_base[sizeof(file_base) - 1] = '\0'; // Ensure null termination
         
+        // Remove the file extension, if present
         char *file_extension = strrchr(file_base, '.');
         if (file_extension) *file_extension = '\0';
         
