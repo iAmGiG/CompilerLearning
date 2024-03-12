@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
-#include <sys/stat.h> // For mkdir()
+#include <sys/stat.h>
+#include <unistd.h>
 
 #define MAX_IDENTIFIER_LENGTH 31
 #define MAX_STRING_LENGTH 1024
@@ -166,10 +166,19 @@ int main(int argc, char **argv) {
         char file_base[OUTPUT_FILENAME_SIZE];
         strncpy(file_base, file_name, sizeof(file_base) - 1);
         file_base[sizeof(file_base) - 1] = '\0'; // Ensure null termination
+        
+        // Remove the file extension, if present
         char *file_extension = strrchr(file_base, '.');
-        if (file_extension) *file_extension = '\0'; // Remove the extension
+        if (file_extension) *file_extension = '\0';
+        
+        // Calculate required buffer size for snprintf and ensure it doesn't exceed limits
+        int required_size = snprintf(NULL, 0, "%s%s%s", OUTPUT_PATH, file_base, EXTENSION) + 1; // +1 for null terminator
+        if (required_size > OUTPUT_FILENAME_SIZE) {
+            fprintf(stderr, "Output filename exceeds buffer size, truncating...\n");
+            required_size = OUTPUT_FILENAME_SIZE;
+        }
 
-        snprintf(output_filename, sizeof(output_filename), "%s%s%s", OUTPUT_PATH, file_base, EXTENSION);
+        snprintf(output_filename, required_size, "%s%s%s", OUTPUT_PATH, file_base, EXTENSION);
 
         output_file = fopen(output_filename, "w");
         if (!output_file) {
