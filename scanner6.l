@@ -155,30 +155,21 @@ int main(int argc, char **argv) {
         }
         yyin = input_file;
 
-        // Create the output directory if it doesn't exist
         struct stat st = {0};
         if (stat(OUTPUT_PATH, &st) == -1) {
-            mkdir(OUTPUT_PATH, 0700); // Adjust permissions as needed
+            mkdir(OUTPUT_PATH, 0700);
         }
 
         char *file_name = strrchr(argv[1], '/');
         file_name = file_name ? file_name + 1 : argv[1];
         char file_base[OUTPUT_FILENAME_SIZE];
         strncpy(file_base, file_name, sizeof(file_base) - 1);
-        file_base[sizeof(file_base) - 1] = '\0'; // Ensure null termination
+        file_base[sizeof(file_base) - 1] = '\0';
         
-        // Remove the file extension, if present
         char *file_extension = strrchr(file_base, '.');
         if (file_extension) *file_extension = '\0';
         
-        // Calculate required buffer size for snprintf and ensure it doesn't exceed limits
-        int required_size = snprintf(NULL, 0, "%s%s%s", OUTPUT_PATH, file_base, EXTENSION) + 1; // +1 for null terminator
-        if (required_size > OUTPUT_FILENAME_SIZE) {
-            fprintf(stderr, "Output filename exceeds buffer size, truncating...\n");
-            required_size = OUTPUT_FILENAME_SIZE;
-        }
-
-        snprintf(output_filename, required_size, "%s%s%s", OUTPUT_PATH, file_base, EXTENSION);
+        snprintf(output_filename, sizeof(output_filename), "%s%s%s", OUTPUT_PATH, file_base, EXTENSION);
 
         output_file = fopen(output_filename, "w");
         if (!output_file) {
