@@ -148,52 +148,46 @@ char output_filename[OUTPUT_FILENAME_SIZE];
 
 int main(int argc, char **argv) {
     if (argc > 1) {
-        FILE *input_file = fopen(argv[1], "r");
+        FILE *input_file;
+        input_file = fopen(argv[1], "r");
         if (!input_file) {
             fprintf(stderr, "Could not open %s\n", argv[1]);
             return 1;
         }
         yyin = input_file;
 
-        // Create the output directory if it doesn't exist
-        struct stat st = {0};
-        if (stat(OUTPUT_PATH, &st) == -1) {
-            if (mkdir(OUTPUT_PATH, 0700) == -1) {
-                fprintf(stderr, "Could not create output directory %s\n", OUTPUT_PATH);
-                fclose(input_file);
-                return 1;
-            }
+        char *file_name = strrchr(argv[1], '/');
+        if (file_name == NULL) {
+            file_name = argv[1];
+        } else {
+            file_name++; // Move past the '/'
+        }
+        char *file_extension = strrchr(file_name, '.');
+        if (file_extension != NULL) {
+            *file_extension = '\0'; // Remove the extension
         }
 
-        char *file_name = strrchr(argv[1], '/');
-        file_name = file_name ? file_name + 1 : argv[1];
-        char file_base[OUTPUT_FILENAME_SIZE];
-        strncpy(file_base, file_name, sizeof(file_base) - 1);
-        file_base[sizeof(file_base) - 1] = '\0'; // Ensure null termination
-        
-        // Remove the file extension, if present
-        char *file_extension = strrchr(file_base, '.');
-        if (file_extension) *file_extension = '\0';
-        
-        snprintf(output_filename, sizeof(output_filename), "%s%s%s", OUTPUT_PATH, file_base, EXTENSION);
-
+        snprintf(output_filename, sizeof(output_filename), "./test_output/%s.out", file_name);
+ 
+        // Open the output file for writing
         output_file = fopen(output_filename, "w");
         if (!output_file) {
             fprintf(stderr, "Could not create %s\n", output_filename);
-            fclose(input_file);
             return 1;
         }
-
-        yylex();
-
-        fclose(input_file);
-        fclose(output_file);
-
-        printf("Output saved to %s\n", output_filename);
     } else {
-        printf("Usage: %s <input_file>\n", argv[0]);
+        printf("Usage: %s input_file\n", argv[0]);
         return 1;
     }
-
+ 
+    yylex();
+ 
+    if (argc > 1) {
+        fclose(yyin);
+        fclose(output_file); // Close the output file after writing
+ 
+        printf("Output saved to %s\n", output_filename);
+    }
+ 
     return 0;
 }
