@@ -3,16 +3,18 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <ctype.h>
-int line_num = 1;
-int char_pos = 1; // Initialize at 1 for the start of a new line
+#include <sys/stat.h> // For mkdir()
+
 #define MAX_IDENTIFIER_LENGTH 31
 #define MAX_STRING_LENGTH 1024
-
 #define OUTPUT_FILENAME_SIZE 256
 #define OUTPUT_PATH "./test_output/"
 #define EXTENSION ".out"
 
+int line_num = 1;
+int char_pos = 1; // Initialize at 1 for the start of a new line
 extern FILE *yyin;
 FILE *output_file;
 char output_filename[OUTPUT_FILENAME_SIZE];
@@ -153,6 +155,12 @@ int main(int argc, char **argv) {
         }
         yyin = input_file;
 
+        // Create the output directory if it doesn't exist
+        struct stat st = {0};
+        if (stat(OUTPUT_PATH, &st) == -1) {
+            mkdir(OUTPUT_PATH, 0700); // Adjust permissions as needed
+        }
+
         char *file_name = strrchr(argv[1], '/');
         file_name = file_name ? file_name + 1 : argv[1];
         char file_base[OUTPUT_FILENAME_SIZE];
@@ -161,14 +169,8 @@ int main(int argc, char **argv) {
         char *file_extension = strrchr(file_base, '.');
         if (file_extension) *file_extension = '\0'; // Remove the extension
 
-        // Calculate required buffer size and check for potential truncation
-        int required_size = snprintf(NULL, 0, "%s%s%s", OUTPUT_PATH, file_base, EXTENSION);
-        if (required_size >= OUTPUT_FILENAME_SIZE) {
-            fprintf(stderr, "Warning: Output filename is too long, truncating...\n");
-            // Potentially adjust file_base here or handle differently
-        }
-
         snprintf(output_filename, sizeof(output_filename), "%s%s%s", OUTPUT_PATH, file_base, EXTENSION);
+
         output_file = fopen(output_filename, "w");
         if (!output_file) {
             fprintf(stderr, "Could not create %s\n", output_filename);
