@@ -8,6 +8,9 @@ int line_num = 1;
 int char_pos = 1; // Initialize at 1 for the start of a new line
 #define MAX_IDENTIFIER_LENGTH 31
 #define MAX_STRING_LENGTH 1024
+extern FILE *yyin;
+FILE *output_file; // File pointer for the output file
+char output_filename[256]; // Buffer for the output file name
 %}
 
 %x COMMENT
@@ -15,8 +18,7 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 %%
 
 \n  { ++line_num; char_pos = 1; }
-[ \t]+ { char_pos += strlen(yytext); } // Adjust position for whitespace
-
+[ \t]+ { char_pos += strlen(yytext); }
 
 "#.*" {
     printf("\n*** Error line %d.\n*** Invalid # directive\n", line_num);
@@ -77,23 +79,23 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
         char temp[MAX_IDENTIFIER_LENGTH + 1];
         strncpy(temp, yytext, MAX_IDENTIFIER_LENGTH);
         temp[MAX_IDENTIFIER_LENGTH] = '\0';
-        printf("%s line %d cols %d-%d is T_Identifier (truncated to %s)\n", yytext, line_num, char_pos, char_pos + MAX_IDENTIFIER_LENGTH - 1, temp);
+        printf("%s\t\t line %d cols %d-%d is T_Identifier (truncated to %s)\n", yytext, line_num, char_pos, char_pos + MAX_IDENTIFIER_LENGTH - 1, temp);
     } else {
-        printf("%s line %d cols %d-%d is T_Identifier\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1));
+        printf("%s\t\t line %d cols %d-%d is T_Identifier\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1));
     }
     char_pos += strlen(yytext);
 }
 
 [0-9]+ {
-    int value = atoi(yytext); // Convert the string to an integer, removing leading zeroes
+    int value = atoi(yytext);
     printf("%s\t\t line %d cols %d-%d is T_IntConstant (value = %d)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
-    char_pos += strlen(yytext); // Update char_pos after handling the token
+    char_pos += strlen(yytext);
 }
 
 [0-9]+(\.[0-9]*)?([Ee][+\-]?[0-9]+)? {
     double value = atof(yytext);
     printf("%s\t\t line %d cols %d-%d is T_DoubleConstant (value = %g)\n", yytext, line_num, char_pos, (int)(char_pos + strlen(yytext) - 1), value);
-    char_pos += strlen(yytext); 
+    char_pos += strlen(yytext);
 }
 
 \"(\\.|[^"\\])*\" {
@@ -139,23 +141,46 @@ int char_pos = 1; // Initialize at 1 for the start of a new line
 
 int main(int argc, char **argv) {
     if (argc > 1) {
-        FILE *file;
-        file = fopen(argv[1], "r");
-        if (!file) {
+        FILE *input_file = fopen(argv[1], "r");
+        if (!input_file) {
             fprintf(stderr, "Could not open %s\n", argv[1]);
             return 1;
         }
-        yyin = file;
+        yyin = input_file;
+
+        char *file_name = strrchr(argv[1], '/');
+        file_name = file_name ? file_name + 1 : argv[1];
+        char file_base[256];
+        strncpy(file_base, file_name, sizeof(file_base));
+        file_base[sizeof(file_base) - 1] = '\0';
+        char *file_extension = strrchr(file_base, '.');
+        if (file_extension != NULL) {
+            *file_extension = '\0'; // Remove the extension
+        }
+
+        snprintf(output_filename, sizeof(output_filename), "./test_output/%s.out", file_base);
+
+        output_file = fopen(output_filename, "w");
+        if (!output_file) {
+            fprintf(stderr, "Could not create %s\n", output_filename);
+            fclose(input_file); // Make sure to close the input file before returning
+            return 1;
+        }
+
+        // If using printf in lexer actions, you must redirect stdout here
+        // freopen(output_filename, "w", stdout);
+
+        yylex();
+
+        fclose(input_file);
+        fclose(output_file); // Close the output file after writing
+        // If you redirected stdout, consider how to restore it here
+
+        printf("Output saved to %s\n", output_filename);
+    } else {
+        printf("Usage: %s input_file\n", argv[0]);
+        return 1;
     }
-    yylex();
-    if (argc > 1) {
-        fclose(yyin);
-    }
+
     return 0;
 }
-
-// removing this rule, but not sure if anything will break yet.
-// (0[Xx][0-9A-Fa-f]+)                      {
-//     printf("%s\t\tline %d cols %d-%d is T_HexInteger\n", yytext, line_num, char_pos, char_pos + (int)strlen(yytext) - 1);
-//     char_pos += strlen(yytext);
-// }
