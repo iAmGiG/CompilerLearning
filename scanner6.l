@@ -45,7 +45,7 @@ char output_filename[OUTPUT_FILENAME_SIZE];
 }
 
 
-"void"                                  { printf("void\t\t line %d cols %d-%d is T_Void\n", line_num, char_pos + 1, char_pos + 4); }
+"void"                                  { fprintf("void\t\t line %d cols %d-%d is T_Void\n", line_num, char_pos + 1, char_pos + 4); }
 "int"                                   { printf("int\t\t line %d cols %d-%d is T_Int\n", line_num, char_pos + 1, char_pos + 3); }
 "double"                                { printf("double\t\t line %d cols %d-%d is T_Double\n", line_num, char_pos + 1, char_pos + 6); }
 "string"                                { printf("string\t\t line %d cols %d-%d is T_String\n", line_num, char_pos + 1, char_pos + 6); }
