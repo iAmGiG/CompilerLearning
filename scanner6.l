@@ -8,9 +8,14 @@ int line_num = 1;
 int char_pos = 1; // Initialize at 1 for the start of a new line
 #define MAX_IDENTIFIER_LENGTH 31
 #define MAX_STRING_LENGTH 1024
+
+#define OUTPUT_FILENAME_SIZE 256
+#define OUTPUT_PATH "./test_output/"
+#define EXTENSION ".out"
+
 extern FILE *yyin;
-FILE *output_file; // File pointer for the output file
-char output_filename[256]; // Buffer for the output file name
+FILE *output_file;
+char output_filename[OUTPUT_FILENAME_SIZE];
 %}
 
 %x COMMENT
@@ -150,35 +155,35 @@ int main(int argc, char **argv) {
 
         char *file_name = strrchr(argv[1], '/');
         file_name = file_name ? file_name + 1 : argv[1];
-        char file_base[256];
-        strncpy(file_base, file_name, sizeof(file_base));
-        file_base[sizeof(file_base) - 1] = '\0';
+        char file_base[OUTPUT_FILENAME_SIZE];
+        strncpy(file_base, file_name, sizeof(file_base) - 1);
+        file_base[sizeof(file_base) - 1] = '\0'; // Ensure null termination
         char *file_extension = strrchr(file_base, '.');
-        if (file_extension != NULL) {
-            *file_extension = '\0'; // Remove the extension
+        if (file_extension) *file_extension = '\0'; // Remove the extension
+
+        // Calculate required buffer size and check for potential truncation
+        int required_size = snprintf(NULL, 0, "%s%s%s", OUTPUT_PATH, file_base, EXTENSION);
+        if (required_size >= OUTPUT_FILENAME_SIZE) {
+            fprintf(stderr, "Warning: Output filename is too long, truncating...\n");
+            // Potentially adjust file_base here or handle differently
         }
 
-        snprintf(output_filename, sizeof(output_filename), "./test_output/%s.out", file_base);
-
+        snprintf(output_filename, sizeof(output_filename), "%s%s%s", OUTPUT_PATH, file_base, EXTENSION);
         output_file = fopen(output_filename, "w");
         if (!output_file) {
             fprintf(stderr, "Could not create %s\n", output_filename);
-            fclose(input_file); // Make sure to close the input file before returning
+            fclose(input_file);
             return 1;
         }
-
-        // If using printf in lexer actions, you must redirect stdout here
-        // freopen(output_filename, "w", stdout);
 
         yylex();
 
         fclose(input_file);
-        fclose(output_file); // Close the output file after writing
-        // If you redirected stdout, consider how to restore it here
+        fclose(output_file);
 
         printf("Output saved to %s\n", output_filename);
     } else {
-        printf("Usage: %s input_file\n", argv[0]);
+        printf("Usage: %s <input_file>\n", argv[0]);
         return 1;
     }
 
